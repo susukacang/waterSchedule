@@ -1,0 +1,18 @@
+.grid-container {
+    display: grid;
+    background-color: rgb(255, 196, 212);
+    grid-gap: 1em;
+    padding: 0.1em;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(3, 100px);
+}
+
+.grid-item {
+    background-color: chocolate;
+    border: 1px solid blueviolet;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: large;
+    color: aliceblue;
+}

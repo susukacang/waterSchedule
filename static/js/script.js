@@ -1,0 +1,1 @@
+console.log('this is script is in static/js folder')
