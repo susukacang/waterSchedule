@@ -32,6 +32,11 @@
     <!-- <div class="jsondata" style="display:none">{{jsondata}}</div> -->
     <div class="grid-container"></div>
 <br/>
+    <div class="clock">
+    <h1>NTP Time Display</h1>
+    <p>Time from NTP server: <span class="ntp-time">Loading...</span></p>
+    </div>
+<br/>
     <div class="channel-btn-container"></div>
     <div class="timerset-container"></div>
 <br/>
@@ -45,7 +50,7 @@
             console.log("myFunc" + vars)
             return vars
         }
-
+        // old data from here
         let data = myVar.data
         // window.addEventListener('click', (e) => {
         //     console.log('click' + myVar.data.c1.su.p1.on)
@@ -56,9 +61,10 @@
         //     console.log("window loaded")
         //     console.log("myVar:" + myVar)
         // }
-
+// createGrid, populateData, checkData used array format file i.e. params3.json
         function createGrid() {
             let grid = document.querySelector(".grid-container")
+            // this for loop may not be necessary anymore now that we have row col classes
             for (let i = 0; i < 448; i++) {
                 let gridItem = document.createElement("div")
                 gridItem.classList.add("grid-item")
@@ -66,10 +72,15 @@
                 grid.appendChild(gridItem)
                 gridItem.classList.add("y" + i)
             }
+            document.querySelectorAll(".grid-container .grid-item").forEach(((elem, key) => {
+                row=Math.floor(key/56)
+                col=key%56
+                elem.classList.add("row"+row,"col"+col)
+            }))
         }
 
         createGrid()
-
+// obsolete - populateData
         function populateData() {
 
             console.log("populateData")
@@ -115,7 +126,42 @@
             }
         }
 
+        let myTimerSetData
 
+        function populateData2() {
+            console.log("populateData2")
+
+            fetch("/getTimerSetData").then((response=>response.json())).then(data=>{
+                console.log(data, data.timerSetData)
+                myTimerSetData = data.timerSetData
+                enterData(data.timerSetData)
+            }).catch(error=>console.error(error))
+
+        }
+        
+        populateData2()
+
+        function enterData(data) {
+            Object.entries(data).forEach((entry) => {
+                const [key, value] = entry
+                console.log(`${key}: ${value}`)
+                
+                let t = key.split(/c(\d+)d(\d+)p(\d+)o(\d+)/).filter(n=>n)
+                console.log(t)
+                let c = t[0]
+                let d = t[1]
+                let p = t[2]
+                let o = t[3]
+                // let col = (parseInt(d)-0)*8+parseInt(c)-1 // number of relays=8, d=day of week, c=channel relay number
+                let col = (+d-0)*8+ +c-1 // number of relays=8, d=day of week, c=channel relay number
+                console.log(key + ', ' + col)
+                let row = +p * 2 + +o
+                console.log(row)
+                let elem = document.querySelector(".grid-container .row"+row+".col"+col)
+                elem.innerHTML = value
+                elem.classList.add("con")
+            })
+        }
 
         function myMap(i) {
             console.log("myMap")
@@ -134,7 +180,7 @@
             return ii%size+Math.floor(ii/size)  // start from 0. % is to get signal cyclic shift. floor is to carry to the next column
         }
 
-        populateData()
+        // populateData()   // ......disabled
         
         // populateDataFull()
 
@@ -180,7 +226,7 @@
 
         }
 
-        checkData()
+        // checkData() //......disabled
         let mapArray=[]
 
         function createMap() {
@@ -203,7 +249,7 @@
             }
         }
 
-        createMap()
+        // createMap()  //....disabled
 
         function createSchedule() {
             console.log("createSchedule")
@@ -436,7 +482,9 @@
                 let c = t[0]
                 let d = t[1]
                 let p = t[2]
-                let col = (parseInt(d)-0)*8+parseInt(c)-1 // number of relays=8, d=day of week, c=channel relay number
+                // let col = (parseInt(d)-0)*8+parseInt(c)-1 // number of relays=8, d=day of week, c=channel relay number
+                let col = (+d-0)*8+ +c-1 // number of relays=8, d=day of week, c=channel relay number
+
                 // col = str(col).trim()
                 console.log("col:" + col)
                 // let rows = rows.filter((r) => r >= on && r<off)
@@ -456,7 +504,8 @@
                             for(let i = rowStart; i < rowStop; i++) {
                                 console.log(".row"+i+".col"+col)
                                 document.querySelector(".row"+i+".col"+col).classList.remove("coff")
-                                document.querySelector(".row"+i+".col"+col).classList.add("c"+(parseInt(c)+1-1)+"on")
+                                // document.querySelector(".row"+i+".col"+col).classList.add("c"+(parseInt(c)+1-1)+"on")
+                                document.querySelector(".row"+i+".col"+col).classList.add("c"+c+"on")
                             }
                         }
 
@@ -571,7 +620,7 @@ let selectedChannel = "1"
                 input.name = "c" + _c + "d" + _d + "p" + _p + "o1"
             }
             let inputdivlabel = ce("div")
-            inputdivlabel.innerHTML=i
+            // inputdivlabel.innerHTML=i
             inputdivlabel.classList.add("inputlabel")
             inputdiv.appendChild(inputdivlabel)
 
@@ -606,58 +655,20 @@ let selectedChannel = "1"
 
         divElement.appendChild(submitElement)
 
-        // let formE=ge("form")
-        // formE.addEventListener("submit", (e)=>{console.log("submit"); e.preventDefault();})
         submitElement.onclick = (e) => postData(e)
-            // e.preventDefault()
-            // alert("clicked button, channel=" + selectedChannel)
-            // should submit the timerSetData object instead; it contains the entire data for the relays, not just one relay in the form per time
-            // TODO
-            // document.querySelector("#myForm").submit()
-
-            // handleFormSubmit(e)
-            // postData(e)
-
         
-
+        let ntptime=""
         function postData(e) {
             // alert("clicked button, channel=" + selectedChannel)
             e.preventDefault()
-            // fetch('/jsondata', 
-            //     {   Method: 'POST', 
-            //         Headers: { 
-            //                     'Content-Type': 'application/json' }, 
-            //                     Body: JSON.stringify({ "message": "hello" }), 
-            //                     Cache: 'default' })
-            // .then(response => console.log(response))
-            // .then(data => { console.log(data) })
-            // .catch(error => { console.log(error) })
 
             fetch("/jsondata/", {method: 'POST', headers: {'Content-Type':'application/json'},body:JSON.stringify({"timerSetData":timerSetData})})
             .then(response=>response.json())
-            .then(data=>{console.log(data.jsondata); timerSetData = data.jsondata.timerSetData; mydata2 = data; populateDataFull2(timerSetData)})
+            .then(data=>{console.log(data); timerSetData = data.jsondata.timerSetData; mydata2 = data; populateDataFull2(timerSetData);
+                    ntptime = data.ntptime})
             .catch(error=>console.error(error))
 
         }
-        let mydata2 = ""
-        // async function handleFormSubmit(e) {
-        //     console.log(timerSetData)
-        //     // e.preventDefault()
-        //     const fetchOptions = {
-        //         method: "POST",
-        //         headers: {
-        //             "Content-Type": "application/json",
-        //             "Accept": "application/json",
-        //         },
-        //         body: timerSetData,
-        //     }
-        //     const response = await fetch("/jsondata", fetchOptions)
-        //     if(!response.ok) {
-        //         const errorMessage = await response.text()
-        //         throw new Error(errorMessage)
-        //     }
-        //     console.log(response)
-        // }
     </script>
 
     <script>
@@ -705,6 +716,43 @@ let selectedChannel = "1"
             elem.className = classes.join(" ").trim()
             elem.classList.add("c"+(chNum)+"on")
         }
+    </script>
+
+    <script>
+        function updateTime() {
+            fetch('/get_time')
+            .then(response=>{
+                // console.log('Response:', response); 
+                return response.json()})
+            .then(data=>{
+                console.log('Data:', data)
+                if(data.time!==null) {
+                    const ntpTime = new Date(data.time * 1000)
+                    document.querySelector('.ntp-time').textContent = ntpTime.toUTCString()
+                    checkTimerEvent(ntpTime)
+                }
+            }).catch(error=>console.error(error))
+        }
+
+        function checkTimerEvent(ntpTime) {
+            let dow = ntpTime.getUTCDay()
+            let timeNow = ntpTime.toLocaleString('en-US', { hour12: false, hour: "numeric", minute: "numeric"})
+            let _timeNow = timeNow.split(":")
+            let rowNow = _timeNow[0] * 2 + (_timeNow[1] > 0 ? 1 : 0) 
+            // console.log("dow=" + dow + ", timeNow=" + timeNow + ", rowNow=" + rowNow)
+            let dowCol = dow*8 // number of relays = 8
+            for(let i=dowCol; i<dowCol+8; i++) {
+                document.querySelector(".schedule .col" + i + ".row" + rowNow).innerHTML = dow
+            }
+
+            // timerSetData
+        }
+
+        updateTime()
+        setInterval(updateTime, 10*1000)
+        // let heading = ge(".clock")
+        // heading.innerHTML = "<h2>Channel Status @ {{ntptime}}</h2>"
+
     </script>
 </body>
 

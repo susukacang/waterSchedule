@@ -244,6 +244,22 @@
     transition: 0.7s
 }
 
+.clock {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-color: #f0f0f0;
+}
+
+.clock h1 {
+    color: #333;
+}
+
+.clock .ntp-time {
+    font-size: 24px;
+    font-weight: bold;
+    color: #007BFF;
+}
+
 .channel-btn:enabled {
 
 }
@@ -260,3 +276,7 @@
 /* .timerset-container form .card-holder {
     background-color: rgb(211, 232, 225);
 } */
+
+.schedule .grid-item {
+    color: rgb(162, 46, 46);
+}
