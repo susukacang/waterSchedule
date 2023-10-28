@@ -280,3 +280,7 @@
 .schedule .grid-item {
     color: rgb(162, 46, 46);
 }
+
+.grid-container .grid-item {
+    /* width: 3em; */
+}

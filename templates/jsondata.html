@@ -52,6 +52,11 @@
         }
         // old data from here
         let data = myVar.data
+
+        let selectedChannel = "1"
+        let timerSetData = {}
+
+
         // window.addEventListener('click', (e) => {
         //     console.log('click' + myVar.data.c1.su.p1.on)
             
@@ -128,38 +133,63 @@
 
         let myTimerSetData
 
-        function populateData2() {
-            console.log("populateData2")
+        function populateFirstTableData() {
+            console.log("populateFirstTableData")
 
             fetch("/getTimerSetData").then((response=>response.json())).then(data=>{
-                console.log(data, data.timerSetData)
+                console.log(data.timerSetData)
                 myTimerSetData = data.timerSetData
+                timerSetData = data.timerSetData    // load params5.json into timerSetData 
                 enterData(data.timerSetData)
             }).catch(error=>console.error(error))
 
         }
-        
-        populateData2()
 
+        populateFirstTableData()
+
+        // fill the timerset summary (first table)
         function enterData(data) {
             Object.entries(data).forEach((entry) => {
                 const [key, value] = entry
-                console.log(`${key}: ${value}`)
+                // console.log(`${key}: ${value}`)
                 
                 let t = key.split(/c(\d+)d(\d+)p(\d+)o(\d+)/).filter(n=>n)
-                console.log(t)
+                // console.log(t)
                 let c = t[0]
                 let d = t[1]
                 let p = t[2]
                 let o = t[3]
                 // let col = (parseInt(d)-0)*8+parseInt(c)-1 // number of relays=8, d=day of week, c=channel relay number
                 let col = (+d-0)*8+ +c-1 // number of relays=8, d=day of week, c=channel relay number
-                console.log(key + ', ' + col)
+                // console.log(key + ', ' + col)
                 let row = +p * 2 + +o
-                console.log(row)
+                // console.log(row)
                 let elem = document.querySelector(".grid-container .row"+row+".col"+col)
                 elem.innerHTML = value
                 elem.classList.add("con")
+            })
+        }
+
+        function populateTimerSet(data) {
+            Object.entries(data).forEach((entry) => {
+                const [key, value] = entry
+                // console.log(`${key}: ${value}`)
+                
+                let t = key.split(/c(\d+)d(\d+)p(\d+)o(\d+)/).filter(n=>n)
+                // console.log(t)
+                let c = t[0]
+                let d = t[1]
+                let p = t[2]
+                let o = t[3]
+                // let col = (parseInt(d)-0)*8+parseInt(c)-1 // number of relays=8, d=day of week, c=channel relay number
+                let col = (+d-0) // number of relays=8, d=day of week, c=channel relay number
+                // console.log(key + ', ' + col)
+                let row = +p * 2 + +o
+                // console.log(row)
+                // console.log(".timerSet .row"+row+".col"+col+" input")
+                let elem = document.querySelector(".timerSet .row"+row+".col"+col+" input")
+                elem.value = value
+                // elem.classList.add("con")
             })
         }
 
@@ -463,22 +493,22 @@
         // populateDataFull()
         // let r = "c1d2p3o4".split(/(c\d+)(d\d+)(p\d+)(o\d+)/).filter(i=>i)
         // let timerSetData = {}
-        let timerSetData = {}
+        // let timerSetData = {}
 
 
         function populateDataFull2(timerSetData) {
             let keys = Object.keys(timerSetData)
             let timerSetDataLength = Object.keys(timerSetData).length
-            console.log("timerSetData:");console.log(timerSetData)
-            console.log(timerSetDataLength)
+            // console.log("timerSetData:");console.log(timerSetData)
+            // console.log(timerSetDataLength)
             for(let i = 0; i < timerSetDataLength; i+=2) {
-                console.log("i:" + i)
+                // console.log("i:" + i)
 
                 // objects, not array...need keys, not indices
-                let on = timerSetData[keys[i]]; console.log("on:" + on)
-                let off = timerSetData[keys[i+1]]; console.log("off:" + off)
+                let on = timerSetData[keys[i]]; //console.log("on:" + on)
+                let off = timerSetData[keys[i+1]]; //console.log("off:" + off)
                 let t = keys[i].split(/c(\d+)d(\d+)p(\d+)o(\d+)/).filter(n=>n)
-                console.log(t)
+                // console.log(t)
                 let c = t[0]
                 let d = t[1]
                 let p = t[2]
@@ -486,7 +516,7 @@
                 let col = (+d-0)*8+ +c-1 // number of relays=8, d=day of week, c=channel relay number
 
                 // col = str(col).trim()
-                console.log("col:" + col)
+                // console.log("col:" + col)
                 // let rows = rows.filter((r) => r >= on && r<off)
                 if (on < off) {
                             on = on.split(":")
@@ -502,7 +532,7 @@
                             //     document.querySelector("#xx"+i).classList.add("c"+(parseInt(c)+1-1)+"on")
                             // }
                             for(let i = rowStart; i < rowStop; i++) {
-                                console.log(".row"+i+".col"+col)
+                                // console.log(".row"+i+".col"+col)
                                 document.querySelector(".row"+i+".col"+col).classList.remove("coff")
                                 // document.querySelector(".row"+i+".col"+col).classList.add("c"+(parseInt(c)+1-1)+"on")
                                 document.querySelector(".row"+i+".col"+col).classList.add("c"+c+"on")
@@ -519,7 +549,7 @@
 <!-- creating input table for timer set -->
     <script>
 
-let selectedChannel = "1"
+// let selectedChannel = "1"
 // let timerSetData = {}
 
 
@@ -669,6 +699,15 @@ let selectedChannel = "1"
             .catch(error=>console.error(error))
 
         }
+
+        // fetch("/getdata/").then(response=>response.json())
+        // .then(data=>{console.log("data="+ data); timerSetData = data.jsondata.timerSetData; mydata2 = data; populateDataFull2(timerSetData);
+        //             ntptime = data.ntptime})
+        // .catch(error=>console.error(error))
+
+        console.log("myVar.timerSetData=" + myVar.timerSetData)
+        populateDataFull2(myVar.timerSetData)
+        // populateTimerSet(myVar.timerSetData)
     </script>
 
     <script>
@@ -716,6 +755,42 @@ let selectedChannel = "1"
             elem.className = classes.join(" ").trim()
             elem.classList.add("c"+(chNum)+"on")
         }
+
+        function init(i) {
+            animateChannelSwitching(".channel-btn-container", i + 1)
+            animateChannelSwitching(".daysLabel", i + 1)
+            animateChannelSwitching(".controlLabel", i + 1)
+            animateChannelSwitching(".startStopLabel", i + 1)
+            animateChannelSwitching(".timerset-container", i + 1)
+            animateChannelSwitching(".submitDiv", i + 1)
+
+            selectedChannel = i + 1
+            // change input name to reference channel number
+            let inputList = document.querySelectorAll(".timerSet input")
+            inputList.forEach(input => {
+                input.name = input.name.replace(/c\d+d/, 'c' + selectedChannel + 'd')
+                // console.log("input.name=" + input.name)
+            })
+            // change input names to reference to selectedChannel
+            // once selected, load values from timerSetData object
+
+            fetch("/getTimerSetData").then((response=>response.json())).then(data=>{
+                // console.log(data, data.timerSetData)
+                myTimerSetData = data.timerSetData
+                timerSetData = data.timerSetData    // load params5.json into timerSetData 
+                enterData(data.timerSetData)
+            }).catch(error=>console.error(error))
+
+            function enterData(timerSetData) {
+                inputList.forEach((input) => {
+                    input.value = timerSetData[input.name]
+                    // console.log("input.value=" + input.value)
+                })
+                // console.log("timerSetData=" + JSON.stringify(timerSetData))
+            }
+        }
+
+        init(0)
     </script>
 
     <script>
@@ -725,17 +800,19 @@ let selectedChannel = "1"
                 // console.log('Response:', response); 
                 return response.json()})
             .then(data=>{
-                console.log('Data:', data)
+                // console.log('Data:', data.time)
                 if(data.time!==null) {
                     const ntpTime = new Date(data.time * 1000)
-                    document.querySelector('.ntp-time').textContent = ntpTime.toUTCString()
+                    console.log(ntpTime.toLocaleString())
+                    // const options = {weekday:"long",year:"numeric",mont}
+                    document.querySelector('.ntp-time').textContent = ntpTime.toLocaleString('en-US', { weekday: "long",year:"numeric",month:"short",day:"numeric", hour12: false, hour: "numeric", minute: "numeric",second:"numeric"}) //ntpTime.toUTCString()
                     checkTimerEvent(ntpTime)
                 }
             }).catch(error=>console.error(error))
         }
 
         function checkTimerEvent(ntpTime) {
-            let dow = ntpTime.getUTCDay()
+            let dow = ntpTime.getDay() // ntpTime.getUTCDay()
             let timeNow = ntpTime.toLocaleString('en-US', { hour12: false, hour: "numeric", minute: "numeric"})
             let _timeNow = timeNow.split(":")
             let rowNow = _timeNow[0] * 2 + (_timeNow[1] > 0 ? 1 : 0) 
