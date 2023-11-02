@@ -11,6 +11,60 @@
     /* grid-template-rows: repeat(28, 1em); */
 }
 
+.schedule2-container {
+    display: grid;
+    grid-template-columns: 10em auto;
+    grid-template-rows: auto auto;
+    /* grid-gap: 0.1em; */
+}
+
+.schedule-time-label {
+    grid-column: 1;
+    grid-row: 1;
+    /* display: flex;
+    justify-content: center;
+    align-items: center; */
+    display: grid;
+    background-color: #131920;
+    padding: 0.1em;
+}
+
+.schedule-dow {
+    grid-column: 2;
+    grid-row: 1;
+    display: grid;
+    grid-gap: 0.1em;
+    padding: 0.1em;
+    grid-template-columns: repeat(7, 1fr);
+    background-color: #131920;
+}
+
+.schedule-data {
+    grid-column: 2;
+    grid-row: 2;
+    display: grid;
+    grid-auto-flow: column;
+    grid-gap: 0.1em;
+    padding: 0.1em;
+    /* background-color: darkmagenta; */
+    background-color: #131920;
+    /* grid-template-columns: repeat(56, 1fr); */
+    grid-template-rows: repeat(48, minmax(20px, auto));
+    /* grid-auto-columns: repeat(56, 1fr); */
+}
+
+.schedule-time {
+    grid-column: 1;
+    grid-row: 2;
+    background-color: #131920;
+    display: grid;
+    grid-template-rows: repeat(48, minmax(20px, auto));
+    padding: 0.1em;
+    grid-gap: 0.1em;
+}
+
+
+
 .grid-item {
     border-radius: 5%;
     border: 1px solid rgb(122, 119, 119);
@@ -19,7 +73,10 @@
     justify-content: center;
     align-items: center;
     /* font-size: x-small; */
-    color: aliceblue;
+    color: rgb(47, 58, 67);
+
+    background-color: rgb(211, 232, 225);
+
 }
 
 .con {
