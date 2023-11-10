@@ -14,9 +14,14 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <!-- <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script> -->
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous"> -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script> -->
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 
     <title>Document</title>
 </head>
@@ -24,7 +29,7 @@
 <body>
     data values.....
 
-    <div class="grid-container"></div>
+    <div class="timersetrawsummary-top"></div>
     <br />
     <div class="clock">
         <h1>NTP Time Display</h1>
@@ -34,9 +39,59 @@
     <div class="channel-btn-container"></div>
     <div class="timerset-container"></div>
     <br />
-    <div class="schedule-container"></div>
-    <div class="schedule2-container"></div>
+    <div class="channel-selection-container">
+
+        <!-- <ul class="nav nav-tabs">
+            <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#home">Home</a></li>
+            <li class="nav-item"><a class="nav-link"  data-toggle="tab" href="#about">About</a></li>
+            <li class="nav-item"><a class="nav-link"  data-toggle="tab" href="#contact">Contact</a></li>
+        </ul>
+
+        <div class="tab-content">
+            <div id="home" class="tab-panec active">
+                <h3>Home</h3>
+                <p>Some content</p>
+            </div>
+            <div id="about" class="tab-pane fade">
+                <h3>About</h3>
+                <p>About content</p>
+            </div>
+            <div id="contact" class="tab-pane fade">
+                <h3>Contact</h3>
+                <p>Contact content</p>
+            </div>
+        </div> -->
+
+    </div>
+        <!-- <nav>
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+              <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Home</button>
+              <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Profile</button>
+              <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">Contact</button>
+            </div>
+          </nav>
+          <div class="tab-content" id="nav-tabContent">
+            <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">home</div>
+            <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">profile</div>
+            <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">contact</div>
+          </div>        -->
+    </div>
+    <br />
+    <div class="timerset2-container-top"></div>
+    <br />
+    <div class="schedule-container-top"></div>
+    <!-- <div class="schedule2-container"></div> -->
     <!-- creating sample data grid and timer summary grid -->
+
+    <div class="relay-container">
+        <ul class="nav nav-tabs">
+            <li class="nav-item"><a class="nav-link active" data-toggle="tab" onclick="onNavigate('/'); return false;">Home2</a></li>
+            <li class="nav-item"><a class="nav-link" data-toggle="tab" onclick="onNavigate('/about'); return false;">About2</a></li>
+            <li class="nav-item"><a class="nav-link" data-toggle="tab" onclick="onNavigate('/contact'); return false;">Contact2</a></li>
+        </ul>
+        <div id="root"></div>
+    </div>
+
     <script>
 
         // channels 
@@ -70,7 +125,12 @@
         // first block --- creating timerset raw summary
 
         function createTimerSetRawSummary() {
-            let grid = document.querySelector(".grid-container")
+
+            const containerTop = document.querySelector(".timersetrawsummary-top")
+            const grid = document.createElement("div")
+            grid.classList.add("grid-container")
+            containerTop.appendChild(grid)
+
             // this for loop may not be necessary anymore now that we have row col classes
             for (let i = 0; i < 448; i++) {
                 let gridItem = document.createElement("div")
@@ -114,100 +174,127 @@
                     elem.classList.add("con")
                 })
             }
+
+            return grid
         }
 
         // end first block
 
         // third block --- creating schedule 
 
-        function createScheduleTimeColumn() {
-            let timeValuesElement = document.createElement("div")
-            // timeValuesElement.classList.add("grid-item")
-            timeValuesElement.classList.add("timeValues")
+        function createChannelSelectionNavTabs() {
+            const container = document.querySelector(".channel-selection-container")
+            // const html = document.createElement("div")
+            container.innerHTML=  '<nav>\
+                                <div class="nav nav-tabs" id="nav-tab" role="tablist">\
+                                <button class="nav-link active" id="nav-channel1-tab" data-bs-toggle="tab" data-bs-target="#nav-channel1" type="button" role="tab" aria-controls="nav-channel1" aria-selected="true">Channel1</button>\
+                                <button class="nav-link" id="nav-channel2-tab" data-bs-toggle="tab" data-bs-target="#nav-channel2" type="button" role="tab" aria-controls="nav-channel2" aria-selected="false">Channel2</button>\
+                                <button class="nav-link" id="nav-channel3-tab" data-bs-toggle="tab" data-bs-target="#nav-channel3" type="button" role="tab" aria-controls="nav-channel3" aria-selected="false">Channel3</button>\
+                                </div>\
+                            </nav>\
+                            <div class="tab-content" id="nav-tabContent">\
+                                <div class="tab-pane fade show active" id="nav-channel1" role="tabpanel" aria-labelledby="nav-channel1-tab">Channel1 Input Form</div>\
+                                <div class="tab-pane fade" id="nav-channel2" role="tabpanel" aria-labelledby="nav-channel2-tab">Channel2 Input Form</div>\
+                                <div class="tab-pane fade" id="nav-channel3" role="tabpanel" aria-labelledby="nav-channel3-tab">Channel3 Input Form</div>\
+                            </div>'
+            // container.innerHTML = html.innerHTML
+        }
+        // createChannelSelectionNavTabs()
+
+        function createTimerSetForm2() {
+
+            const containerTop = document.querySelector(".timerset2-container-top")
+            const container = document.createElement("div")
+            container.classList.add("timerset2-container")
+            containerTop.appendChild(container)
+
+            const timersetForm = document.createElement("form")
+            timersetForm.classList.add("form-group")
+            container.appendChild(timersetForm)
+
+            const timersetControlLabel = document.createElement("div")
+            timersetControlLabel.classList.add("timerset-control-label")
+            timersetForm.appendChild(timersetControlLabel)
+
+            const timersetDoW = document.createElement("div")
+            timersetDoW.classList.add("timerset-dow")
+            timersetForm.appendChild(timersetDoW)    
+
+            const timersetStartStop = document.createElement("div")
+            timersetStartStop.classList.add("timerset-start-stop")
+            timersetForm.appendChild(timersetStartStop)
+
+            const timersetData = document.createElement("div")
+            timersetData.classList.add("timerset-data")
+            timersetForm.appendChild(timersetData)
+
+            const gridItem = document.createElement("div")
+            gridItem.classList.add("grid-item")
+            timersetControlLabel.appendChild(gridItem)
+            gridItem.innerHTML = "Control"
+
+            const timersetSubmitBtn = document.createElement("div")
+            timersetSubmitBtn.classList.add("timerset-submit-btn", "grid-item")
+            timersetForm.appendChild(timersetSubmitBtn)
             
-            let size = 48
-            for(let i = 0; i < size; i++) {
-                let gridItem = document.createElement("div")
-                timeValuesElement.appendChild(gridItem)
-                gridItem.classList.add("grid-item")
-                gridItem.id = "t" + i
-                gridItem.classList.add("row" + (i))
-                gridItem.classList.add("card")
-                gridItem.innerHTML = Math.floor(i/2).toLocaleString('en-US', {
-                    minimumIntegerDigits: 2, useGrouping: false
-                }) + ":" + (i%2==0?"00":"30")
+            const dow = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
+            dow.forEach((d, i) =>{
+                const gridItem = document.createElement("div")
+                gridItem.classList.add("col"+ i, "grid-item")
+                gridItem.innerHTML = d
+                timersetDoW.appendChild(gridItem)
+            })
+
+            for (let i = 0; i < 8; i++) {
+                const div = document.createElement("div")
+                timersetStartStop.appendChild(div)
+                div.classList.add("row" + (i), "grid-item")
+
+                if (i % 2 == 0) div.innerHTML = "Start"
+                if (i % 2 == 1) div.innerHTML = "Stop"
             }
-            
 
-            return timeValuesElement
-        }
+            for (let c = 0; c < 7; c++) {
+                for (let r = 0; r < 8; r++) {
+                    const gridItem = document.createElement("div")
+                    gridItem.classList.add("col" + c, "row" + r, "grid-item")
+                    timersetData.appendChild(gridItem)
 
-        function createScheduleHeaderLabelsTime() {
-            console.log("createScheduleHeaderLabels")
-            let timeLabelElement = document.createElement("div")
-            timeLabelElement.classList.add("card-holder")
-            timeLabelElement.classList.add("timeLabel")
-            let elem2 = document.createElement("div")
-            timeLabelElement.appendChild(elem2)
-            elem2.innerHTML = "Time"
-            elem2.classList.add("card")
-            return timeLabelElement
-        }
-
-        function createScheduleHeaderLabelsDays() {
-            let daysLabelElement = document.createElement("div")
-            daysLabelElement.classList.add("card-holder")
-            daysLabelElement.classList.add("daysLabel")
-            // let elem3 = document.querySelector(".daysLabel")
-            let array = ["Su","Mo","Tu","We","Th","Fr","Sa"]
-            array.forEach((element,i) => {
-                let elem4 = document.createElement("div")
-                elem4.innerHTML = element
-                elem4.classList.add("card")
-                daysLabelElement.appendChild(elem4)
-                elem4.classList.add("col" + (i))
-            });
-            return daysLabelElement
-        }
-
-        function createSchedule() {
-            console.log("createSchedule")
-
-            let scheduleElem = document.createElement("div")
-            scheduleElem.classList.add("schedule")
-            scheduleElem.classList.add("card-holder")
-
-            let size = 8*7*48 // 8 relay channels, 7 days of week, 48 half hours per day
-            for (let i = 0; i < size; i++) {
-                let gridItem = document.createElement("div")
-                gridItem.classList.add("grid-item")
-                scheduleElem.appendChild(gridItem)
-
-                gridItem.classList.add("row" + (Math.floor(i/56)))
-                gridItem.classList.add("col" + (i%56))
-                
-                // initialize state with coff
-                gridItem.classList.add("coff")
-
-                let enableTestColor = 1
-                if (!enableTestColor)
-                    for (let j = 0; j < 8 * 7; j += 8) {
-                        if (ii >= (j + 0) * 48 && ii < (j + 1) * 48) gridItem.classList.add("c1on")
-                        else if (ii >= (j + 1) * 48 && ii < (j + 2) * 48) gridItem.classList.add("c2on")
-                        else if (ii >= (j + 2) * 48 && ii < (j + 3) * 48) gridItem.classList.add("c3on")
-                        else if (ii >= (j + 3) * 48 && ii < (j + 4) * 48) gridItem.classList.add("c4on")
-                        else if (ii >= (j + 4) * 48 && ii < (j + 5) * 48) gridItem.classList.add("c5on")
-                        else if (ii >= (j + 5) * 48 && ii < (j + 6) * 48) gridItem.classList.add("c6on")
-                        else if (ii >= (j + 6) * 48 && ii < (j + 7) * 48) gridItem.classList.add("c7on")
-                        else if (ii >= (j + 7) * 48 && ii < (j + 8) * 48) gridItem.classList.add("c8on")
+                    const input = document.createElement("input")
+                    input.classList.add("input-sm", "form-control")
+                    gridItem.appendChild(input)
+                    input.type = "time"
+                    let _c = selectedChannel
+                    let _d = c
+                    let _p = Math.floor(r / 2)
+                    let _o = r % 2
+                    if ((_o == 0)) {
+                        input.name = "c" + _c + "d" + _d + "p" + _p + "o0"
+                    } else {
+                        input.name = "c" + _c + "d" + _d + "p" + _p + "o1"
                     }
+                    input.addEventListener('change', function () {
+                        timerSetData[this.name] = this.value
+                    })
+                }
             }
 
-            return scheduleElem
+            const submitElement = document.createElement("button")
+            submitElement.name = "submitBtn"
+            submitElement.classList.add("submitBtn", "btn", "btn-light")
+            submitElement.innerHTML = "Enter"
+
+            timersetSubmitBtn.appendChild(submitElement)
+
+            return container
         }
 
-        function createSchedule2(timerSetData) {
-            const container = document.querySelector(".schedule2-container")
+        function createSchedule(timerSetData) {
+
+            const containerTop = document.querySelector(".schedule-container-top")
+            const container = document.createElement("div")
+            container.classList.add("schedule-container")
+            containerTop.appendChild(container)
 
             const scheduleTimeLabel = document.createElement("div")
             scheduleTimeLabel.classList.add("schedule-time-label")
@@ -230,7 +317,7 @@
             scheduleTimeLabel.appendChild(gridItem)
             gridItem.innerHTML = "Time"
 
-            let dow = ["Su","Mo","Tu","We","Th","Fr","Sa"]
+            const dow = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
             dow.forEach((d, i) =>{
                 const gridItem = document.createElement("div")
                 gridItem.classList.add("col"+ i, "grid-item")
@@ -311,9 +398,8 @@
 
                 return filteredData
             }
-            // return container
+            return container
         }
-    createSchedule2(myVar.timerSetData)
 
         // from chatgpt
         // function filterData(inputData, substringToMatch) {
@@ -347,42 +433,6 @@
 
         // filterData()
 
-        function populateScheduleData(timerSetData) {
-            let keys = Object.keys(timerSetData)
-            let timerSetDataLength = Object.keys(timerSetData).length
-
-            for (let i = 0; i < timerSetDataLength; i += 2) {
-                // console.log("i:" + i)
-
-                // objects, not array...need keys, not indices
-                let on = timerSetData[keys[i]] //console.log("on:" + on)
-                let off = timerSetData[keys[i + 1]] //console.log("off:" + off)
-                let t = keys[i].split(/c(\d+)d(\d+)p(\d+)o(\d+)/).filter(n => n)
-                // console.log(t)
-                let c = t[0]
-                let d = t[1]
-                let p = t[2]
-                // let col = (parseInt(d)-0)*8+parseInt(c)-1 // number of relays=8, d=day of week, c=channel relay number
-                let col = (+d - 0) * 8 + +c - 1 // number of relays=8, d=day of week, c=channel relay number
-
-                if (on < off) {
-                    on = on.split(":")
-                    off = off.split(":")
-                    let rowStart = on[0] * 2 + (on[1] > 0 ? 1 : 0)  // 30 min interval
-                    let rowStop = off[0] * 2 + (off[1] > 0 ? 1 : 0)
-
-                    for (let i = rowStart; i < rowStop; i++) {
-                        // console.log(".row"+i+".col"+col)
-                        document.querySelector(".schedule .row" + i + ".col" + col).classList.remove("coff")
-                        // document.querySelector(".row"+i+".col"+col).classList.add("c"+(parseInt(c)+1-1)+"on")
-                        document.querySelector(".schedule .row" + i + ".col" + col).classList.add("c" + c + "on")
-                    }
-                }
-
-
-            }
-        }
-
         // end third block
 
         // second block --- creating input table for timer set
@@ -405,33 +455,35 @@
 
 
             daysLabelElement = document.createElement("div")
-            daysLabelElement.classList.add("card-holder")
+            daysLabelElement.classList.add("card-holder","daysLabel")
             formElement.appendChild(daysLabelElement)
-            daysLabelElement.classList.add("daysLabel")
 
-            elem3 = document.querySelector(".timerset-container .daysLabel")
-            array = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"]
-            array.forEach((element, i) => {
-                let elem4 = document.createElement("div")
-                elem4.innerHTML = element
-                elem4.classList.add("card")
-                elem3.appendChild(elem4)
-                elem4.classList.add("col" + (i))
+            // const gridItem = document.createElement("div")
+            // gridItem.classList.add("grid-item","card")
+            // scheduleTimeLabel.appendChild(gridItem)
+            // gridItem.innerHTML = "Control"
+
+            timersetDoW = document.querySelector(".timerset-container .daysLabel")
+            const dow = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
+            dow.forEach((d, i) =>{
+                const gridItem = document.createElement("div")
+                gridItem.classList.add("col"+ i, "grid-item","card")
+                gridItem.innerHTML = d
+                timersetDoW.appendChild(gridItem)
             })
 
             controlLabelElement = document.createElement("div")
-            controlLabelElement.classList.add("card-holder")
+            controlLabelElement.classList.add("card-holder","controlLabel")
             formElement.appendChild(controlLabelElement)
-            controlLabelElement.classList.add("controlLabel")
             elem2 = document.createElement("div")
             controlLabelElement.appendChild(elem2)
             elem2.innerHTML = "Control"
             elem2.classList.add("card")
 
             startStopLabelElement = document.createElement("div")
-            startStopLabelElement.classList.add("startStopLabel")
+            startStopLabelElement.classList.add("startStopLabel","card-holder")
             formElement.appendChild(startStopLabelElement)
-            startStopLabelElement.classList.add("card-holder")
+            /*         */
 
             for (let i = 0; i < 8; i++) {
                 let div = document.createElement("div")
@@ -509,6 +561,8 @@
 
             }
 
+            return formElement
+
         }
 
         function createChannelButtons() {
@@ -544,6 +598,19 @@
                     inputList.forEach((input) => {
                         input.value = timerSetData[input.name]
                     })
+
+
+                            let inputList2 = document.querySelectorAll(".timerset-data input")
+                            inputList2.forEach(input => {
+                                input.name = input.name.replace(/c\d+d/, 'c' + selectedChannel + 'd')
+                            })
+                            // change input names to reference to selectedChannel
+                            // once selected, load values from timerSetData object
+
+                            inputList2.forEach((input) => {
+                                input.value = timerSetData[input.name]
+                            })
+
                 })
                 div.appendChild(channelBtn)
                 let channelBtnContainer = document.querySelector(".channel-btn-container")
@@ -558,25 +625,14 @@
             elem.classList.add("c"+(chNum)+"on")
         }
 
+        let element1, element2, element3
+
         function init(i) {
-            createTimerSetRawSummary()
-            // populateFirstTableData()
-            let timeValuesElement = createScheduleTimeColumn()
-            let timeLabelElement = createScheduleHeaderLabelsTime()
-            let daysLabelElement = createScheduleHeaderLabelsDays()
-            let scheduleElement = createSchedule()
-            // let scheduleElement = createSchedule2(myVar.timerSetData)
-
-
-            let scheduleContainer = document.querySelector(".schedule-container")
-            scheduleContainer.appendChild(timeLabelElement)
-            scheduleContainer.appendChild(daysLabelElement)
-            scheduleContainer.appendChild(timeValuesElement)
-            scheduleContainer.appendChild(scheduleElement)
-
-            populateScheduleData(myVar.timerSetData)
-
+            element1 = createTimerSetRawSummary()
+            element2 = createSchedule(myVar.timerSetData)
+            element3 = createTimerSetForm2()
             createTimerSetForm()
+
 
             createChannelButtons()
 
@@ -594,6 +650,12 @@
                 input.name = input.name.replace(/c\d+d/, 'c' + selectedChannel + 'd')
                 // console.log("input.name=" + input.name)
             })
+
+                    let inputList2 = document.querySelectorAll(".timerset-data input")
+                    inputList2.forEach(input => {
+                        input.name = input.name.replace(/c\d+d/, 'c' + selectedChannel + 'd')
+                        // console.log("input.name=" + input.name)
+                    })
             // change input names to reference to selectedChannel
             // once selected, load values from timerSetData object
 
@@ -609,6 +671,10 @@
                     // console.log("input.value=" + input.value)
                 })
                 // console.log("timerSetData=" + JSON.stringify(timerSetData))
+                        inputList2.forEach((input) => {
+                            input.value = timerSetData[input.name]
+                            // console.log("input.value=" + input.value)
+                        })
             }
         }
         // end second block
@@ -638,19 +704,49 @@
             // console.log("dow=" + dow + ", timeNow=" + timeNow + ", rowNow=" + rowNow)
             let dowCol = dow*8 // number of relays = 8
             for(let i=dowCol; i<dowCol+8; i++) {
-                document.querySelector(".schedule .col" + i + ".row" + rowNow).innerHTML = dow
+                document.querySelector(".schedule-data .col" + i + ".row" + rowNow).innerHTML = dow
             }
         }
 
 
 
         init(0) // channel 1 first on load
-        updateTime()
+        // updateTime()
         setInterval(updateTime, 10*1000)
         // let heading = ge(".clock")
         // heading.innerHTML = "<h2>Channel Status @ {{ntptime}}</h2>"
 
     </script>
+
+<script>
+
+    const home = element1
+    const about = element2
+    const contact = element3
+
+    const routes = {
+        '/': home,
+        '/about': about,
+        '/contact': contact
+    }
+
+    const rootDiv = document.querySelector('#root')
+    // rootDiv.appendChild(routes['/'])
+
+    function onNavigate(pathname) {
+        window.history.pushState(
+            {}, pathname, window.location.pathname
+        )
+        rootDiv.removeChild(rootDiv.children[0])
+        rootDiv.appendChild(routes[pathname])
+    }
+
+    window.onpopstate = () => {
+        rootDiv.removeChild(rootDiv.children[0])
+        rootDiv.appendChild(routes[window.location.pathname])
+    }
+    
+</script>
 </body>
 
 
