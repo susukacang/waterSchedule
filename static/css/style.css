@@ -11,6 +11,17 @@
     /* grid-template-rows: repeat(28, 1em); */
 }
 
+.grid-container2 {
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-columns: repeat(56, 1fr);
+    grid-template-rows: repeat(8, minmax(20px, auto));
+}
+
+.grid-container2 .grid-item {
+    font-size: 0.75em;
+}
+
 .schedule-container {
     /* display: grid;
     grid-template-columns: 10em auto;
@@ -390,9 +401,9 @@
 }
 
 .clock {
-    font-family: Arial, sans-serif;
+    /* font-family: Arial, sans-serif; */
     text-align: center;
-    background-color: #f0f0f0;
+    /* background-color: #f0f0f0; */
 }
 
 .clock h1 {
@@ -400,9 +411,9 @@
 }
 
 .clock .ntp-time {
-    font-size: 24px;
-    font-weight: bold;
-    color: #007BFF;
+    /* font-size: 24px; */
+    /* font-weight: bold; */
+    /* color: #007BFF; */
 }
 
 .channel-btn:enabled {
@@ -420,4 +431,12 @@
 
 .grid-container .grid-item {
     /* width: 3em; */
+}
+
+.nav_tab_div_label {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 1em;
+    color: brown;
 }

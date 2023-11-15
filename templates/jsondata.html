@@ -3,14 +3,15 @@
 
 <head>
     <meta charset="UTF-8">
-    
+
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta http-equiv="content-type" content="application/json; charset=UTF-8">
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="icon" href="data:,">
-    <link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAADElEQVQI12P4//8/AAX+Av7czFnnAAAAAElFTkSuQmCC">
+    <link rel="icon"
+        href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAADElEQVQI12P4//8/AAX+Av7czFnnAAAAAElFTkSuQmCC">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 
@@ -18,80 +19,110 @@
     <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous"> -->
     <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script> -->
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"> -->
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script> -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
     <title>Document</title>
 </head>
 
 <body>
-    data values.....
-
-    <div class="timersetrawsummary-top"></div>
-    <br />
-    <div class="clock">
-        <h1>NTP Time Display</h1>
-        <p>Time from NTP server: <span class="ntp-time">Loading...</span></p>
-    </div>
-    <br />
-    <div class="channel-btn-container"></div>
-    <div class="timerset-container"></div>
-    <br />
-    <div class="channel-selection-container">
-
-        <!-- <ul class="nav nav-tabs">
-            <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#home">Home</a></li>
-            <li class="nav-item"><a class="nav-link"  data-toggle="tab" href="#about">About</a></li>
-            <li class="nav-item"><a class="nav-link"  data-toggle="tab" href="#contact">Contact</a></li>
-        </ul>
-
-        <div class="tab-content">
-            <div id="home" class="tab-panec active">
-                <h3>Home</h3>
-                <p>Some content</p>
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+        <div class="container-fluid">
+            <a href="#" class="navbar-brand">
+                <!-- <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512">! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc.<path d="M512 32c0 113.6-84.6 207.5-194.2 222c-7.1-53.4-30.6-101.6-65.3-139.3C290.8 46.3 364 0 448 0h32c17.7 0 32 14.3 32 32zM0 96C0 78.3 14.3 64 32 64H64c123.7 0 224 100.3 224 224v32V480c0 17.7-14.3 32-32 32s-32-14.3-32-32V320C100.3 320 0 219.7 0 96z"/></svg> -->
+                <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 384 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M192 512C86 512 0 426 0 320C0 228.8 130.2 57.7 166.6 11.7C172.6 4.2 181.5 0 191.1 0h1.8c9.6 0 18.5 4.2 24.5 11.7C253.8 57.7 384 228.8 384 320c0 106-86 192-192 192zM96 336c0-8.8-7.2-16-16-16s-16 7.2-16 16c0 61.9 50.1 112 112 112c8.8 0 16-7.2 16-16s-7.2-16-16-16c-44.2 0-80-35.8-80-80z"/></svg>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="collapsibleNavbar">
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a class="nav-link active"
+                            onclick="onNavigate('/'); return false;">Raw Summary</a></li>
+                    <li class="nav-item"><a class="nav-link"
+                            onclick="onNavigate('/schedule'); return false;">Schedule</a></li>
+                    <li class="nav-item"><a class="nav-link"
+                            onclick="onNavigate('/timerset'); return false;">Timer Set</a></li>
+                </ul>
             </div>
-            <div id="about" class="tab-pane fade">
-                <h3>About</h3>
-                <p>About content</p>
+            <div class="clock navbar-text">
+                <!-- <h1>NTP Time Display</h1> -->
+                <!-- <p>Time from NTP server:  -->
+                    <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#ffffff}</style><path d="M256 0a256 256 0 1 1 0 512A256 256 0 1 1 256 0zM232 120V256c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2V120c0-13.3-10.7-24-24-24s-24 10.7-24 24z"/></svg>
+                    <span class="ntp-time ">Loading...</span>
+                <!-- </p> -->
             </div>
-            <div id="contact" class="tab-pane fade">
-                <h3>Contact</h3>
-                <p>Contact content</p>
-            </div>
-        </div> -->
+        </div>
+    </nav>
 
-    </div>
-        <!-- <nav>
-            <div class="nav nav-tabs" id="nav-tab" role="tablist">
-              <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Home</button>
-              <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Profile</button>
-              <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">Contact</button>
-            </div>
-          </nav>
-          <div class="tab-content" id="nav-tabContent">
-            <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">home</div>
-            <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">profile</div>
-            <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">contact</div>
-          </div>        -->
-    </div>
-    <br />
-    <div class="timerset2-container-top"></div>
-    <br />
-    <div class="schedule-container-top"></div>
-    <!-- <div class="schedule2-container"></div> -->
-    <!-- creating sample data grid and timer summary grid -->
+    <script>
+        const btns = document.querySelectorAll("nav .navbar-nav .nav-link")
+        btns.forEach((btn => btn.addEventListener("click", function() {
+            btns.forEach(btn => btn.classList.remove("active"))
+            this.classList.add("active")
+        })))
+    </script>
 
-    <div class="relay-container">
-        <ul class="nav nav-tabs">
-            <li class="nav-item"><a class="nav-link active" data-toggle="tab" onclick="onNavigate('/'); return false;">Home2</a></li>
-            <li class="nav-item"><a class="nav-link" data-toggle="tab" onclick="onNavigate('/about'); return false;">About2</a></li>
-            <li class="nav-item"><a class="nav-link" data-toggle="tab" onclick="onNavigate('/contact'); return false;">Contact2</a></li>
-        </ul>
+    <div class="container-fluid mt-3">
         <div id="root"></div>
-    </div>
 
+        <div class="timersetrawsummary-top"></div>
+        <br />
+
+        <br />
+        <div class="channel-btn-container"></div>
+        <div class="timerset-container"></div>
+        <br />
+        <div class="channel-selection-container">
+
+            <!-- <ul class="nav nav-tabs">
+                <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#home">Home</a></li>
+                <li class="nav-item"><a class="nav-link"  data-toggle="tab" href="#about">About</a></li>
+                <li class="nav-item"><a class="nav-link"  data-toggle="tab" href="#contact">Contact</a></li>
+            </ul>
+
+            <div class="tab-content">
+                <div id="home" class="tab-panec active">
+                    <h3>Home</h3>
+                    <p>Some content</p>
+                </div>
+                <div id="about" class="tab-pane fade">
+                    <h3>About</h3>
+                    <p>About content</p>
+                </div>
+                <div id="contact" class="tab-pane fade">
+                    <h3>Contact</h3>
+                    <p>Contact content</p>
+                </div>
+            </div> -->
+
+        </div>
+        <!-- <nav>
+                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Home</button>
+                <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Profile</button>
+                <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">Contact</button>
+                </div>
+            </nav>
+            <div class="tab-content" id="nav-tabContent">
+                <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">home</div>
+                <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">profile</div>
+                <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">contact</div>
+            </div>        -->
+        
+        <br />
+        <div class="timerset2-container-top"></div>
+        <br />
+        <div class="schedule-container-top"></div>
+        <!-- <div class="schedule2-container"></div> -->
+        <!-- creating sample data grid and timer summary grid -->
+
+        <div class="relay-container"></div>
+    </div>
     <script>
 
         // channels 
@@ -113,8 +144,8 @@
         // p=0,1,2,3 -> 4 available periods
         // o=0,1 -> on,off channels
 
-        myVar = myFunc({{jsondata|tojson}})
-        function myFunc(vars){
+        myVar = myFunc({{ jsondata| tojson}})
+        function myFunc(vars) {
             console.log("myFunc" + vars)
             return vars
         }
@@ -129,7 +160,7 @@
             const containerTop = document.querySelector(".timersetrawsummary-top")
             const grid = document.createElement("div")
             grid.classList.add("grid-container")
-            containerTop.appendChild(grid)
+            // containerTop.appendChild(grid)
 
             // this for loop may not be necessary anymore now that we have row col classes
             for (let i = 0; i < 448; i++) {
@@ -148,6 +179,7 @@
             console.log("populateFirstTableData")
 
             fetch("/getTimerSetData").then((response => response.json())).then(data => {
+                console.log("/getTimerSetData: ")
                 console.log(data.timerSetData)
                 timerSetData = data.timerSetData    // load params5.json into timerSetData 
                 enterData(data.timerSetData)
@@ -169,14 +201,55 @@
                     // console.log(key + ', ' + col)
                     let row = +p * 2 + +o
                     // console.log(row)
-                    let elem = document.querySelector(".grid-container .row" + row + ".col" + col)
-                    elem.innerHTML = value
-                    elem.classList.add("con")
+                    try {
+                        let elem = document.querySelector(".grid-container .row" + row + ".col" + col)
+                        grid.childNodes.forEach
+                        elem.innerHTML = value
+                        elem.classList.add("con")
+                    } catch (error) {
+                        console.error(error)
+                    }
                 })
             }
 
             return grid
         }
+
+
+        function createTimerSetRawSummary2(timerSetData) {
+
+            const containerTop = document.querySelector(".timersetrawsummary-top")
+            const grid = document.createElement("div")
+            grid.classList.add("grid-container2")
+            // containerTop.appendChild(grid)
+
+            for (let c = 0; c < 56; c++) {
+                for (let r = 0; r < 8; r++) {
+                    const gridItem = document.createElement("div")
+                    gridItem.classList.add("grid-item", "row" + r, "col" + c)
+                    grid.appendChild(gridItem)
+                    const channel = c % 8 + 1
+                    const dow = Math.floor(c / 8)
+                    const period = Math.floor(r / 2)
+                    const onoff = r % 2
+                    const pattern = "c" + channel + "d" + dow + "p" + period + "o" + onoff
+                    // console.log(pattern)
+                    const filteredDataKey = Object.keys(timerSetData).filter(key => key.includes(pattern))
+                    // console.log(filteredDataKey)
+
+                    try {
+                        if(timerSetData[filteredDataKey] !== undefined) gridItem.innerHTML = timerSetData[filteredDataKey]
+                    } catch (error) {
+                        console.error(error)
+                    }
+                }
+            }
+            return grid
+        }
+
+
+
+
 
         // end first block
 
@@ -185,7 +258,7 @@
         function createChannelSelectionNavTabs() {
             const container = document.querySelector(".channel-selection-container")
             // const html = document.createElement("div")
-            container.innerHTML=  '<nav>\
+            container.innerHTML = '<nav>\
                                 <div class="nav nav-tabs" id="nav-tab" role="tablist">\
                                 <button class="nav-link active" id="nav-channel1-tab" data-bs-toggle="tab" data-bs-target="#nav-channel1" type="button" role="tab" aria-controls="nav-channel1" aria-selected="true">Channel1</button>\
                                 <button class="nav-link" id="nav-channel2-tab" data-bs-toggle="tab" data-bs-target="#nav-channel2" type="button" role="tab" aria-controls="nav-channel2" aria-selected="false">Channel2</button>\
@@ -201,16 +274,80 @@
         }
         // createChannelSelectionNavTabs()
 
-        function createTimerSetForm2() {
+        function createTimerSetDivTabs(timerSetData) {
+            const tabContainer = document.createElement("ul")
+            tabContainer.classList.add("nav","nav-tabs")
+            for(let i = 0; i < 8; i++) {
+                const tabItem = document.createElement("li")
+                tabItem.classList.add("nav-item")
+                const tabLink = document.createElement("a")
+                tabLink.classList.add("nav-link")
+                if (i == 0) tabLink.classList.add("active")
+                tabLink.innerHTML = "" + (i+1)
+                tabLink.addEventListener('click', function(){
+                    document.querySelectorAll(".nav-tabs .nav-link").forEach(tab => tab.classList.remove("active"))
+                    this.classList.add("active")
+
+
+
+                    selectedChannel = this.innerHTML
+                    // change input name to reference channel number
+                    let inputList = document.querySelectorAll(".timerset-data input")
+                    inputList.forEach(input => {
+                        input.name = input.name.replace(/c\d+d/, 'c' + selectedChannel + 'd')
+                    })
+                    // change input names to reference to selectedChannel
+                    // once selected, load values from timerSetData object
+
+                    inputList.forEach((input) => {
+                        input.value = timerSetData[input.name]
+                    })
+                })
+                tabItem.appendChild(tabLink)
+                tabContainer.appendChild(tabItem)
+            }
+            const tabDivLabel = document.createElement("div")
+            tabDivLabel.classList.add("nav_tab_div_label")
+            tabDivLabel.innerHTML = "Channel"
+            tabContainer.insertAdjacentElement("afterbegin", tabDivLabel)
+
+            return tabContainer
+            // return `<ul class="nav nav-tabs">\
+            //             <li class="nav-item"><a class="nav-link active" onclick="selectChannel(this); return false;">Channel1</a></li>\
+            //             <li class="nav-item"><a class="nav-link" onclick="selectChannel(this); return false;">Channel2</a></li>\
+            //             <li class="nav-item"><a class="nav-link" onclick="selectChannel(this); return false;">Channel3</a></li>\
+            //         </ul>`
+        }
+
+
+        function selectChannel(elem) {
+            const btns = document.querySelectorAll(".nav-tabs .nav-link")
+            btns.forEach(btn => btn.classList.remove("active"))
+            elem.classList.add("active")
+        }
+
+        function createTimerSetForm2(timerSetData) {
+            // create container and insertBefore channel tabs and timerset2-container
 
             const containerTop = document.querySelector(".timerset2-container-top")
+            
             const container = document.createElement("div")
-            container.classList.add("timerset2-container")
-            containerTop.appendChild(container)
+            container.classList.add("timerset2-container-top2")
+            
+            const timersetDivTabs = document.createElement("div")
+            timersetDivTabs.classList.add("timerset-div-tabs")
+            timersetDivTabs.appendChild(createTimerSetDivTabs(timerSetData))
+            container.appendChild(timersetDivTabs)
+
+            const timersetContainer = document.createElement("div")
+            timersetContainer.classList.add("timerset2-container")
+            container.appendChild(timersetContainer)
+
+            // containerTop.appendChild(container)
 
             const timersetForm = document.createElement("form")
             timersetForm.classList.add("form-group")
-            container.appendChild(timersetForm)
+            timersetContainer.appendChild(timersetForm)
 
             const timersetControlLabel = document.createElement("div")
             timersetControlLabel.classList.add("timerset-control-label")
@@ -218,7 +355,7 @@
 
             const timersetDoW = document.createElement("div")
             timersetDoW.classList.add("timerset-dow")
-            timersetForm.appendChild(timersetDoW)    
+            timersetForm.appendChild(timersetDoW)
 
             const timersetStartStop = document.createElement("div")
             timersetStartStop.classList.add("timerset-start-stop")
@@ -236,11 +373,11 @@
             const timersetSubmitBtn = document.createElement("div")
             timersetSubmitBtn.classList.add("timerset-submit-btn", "grid-item")
             timersetForm.appendChild(timersetSubmitBtn)
-            
+
             const dow = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
-            dow.forEach((d, i) =>{
+            dow.forEach((d, i) => {
                 const gridItem = document.createElement("div")
-                gridItem.classList.add("col"+ i, "grid-item")
+                gridItem.classList.add("col" + i, "grid-item")
                 gridItem.innerHTML = d
                 timersetDoW.appendChild(gridItem)
             })
@@ -276,6 +413,8 @@
                     input.addEventListener('change', function () {
                         timerSetData[this.name] = this.value
                     })
+                    // initialization - fill relevant input with timerset data (check initChannelButtons())
+                    input.value = timerSetData[input.name]
                 }
             }
 
@@ -286,7 +425,52 @@
 
             timersetSubmitBtn.appendChild(submitElement)
 
+            submitElement.onclick = (e) => postData(e)
+
+            function postData(e) {
+                // alert("clicked button, channel=" + selectedChannel)
+                e.preventDefault()
+
+                fetch("/", { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ "timerSetData": timerSetData }) })
+                    .then(response => response.json())
+                    .then(data => {
+                        // console.log(data); 
+                        myVar.timerSetData = data.jsondata.timerSetData;
+                        // mydata2 = data;
+                        // populateScheduleData(timerSetData)
+                        // updateSchedule(timerSetData)    // doesn't work when div.schedule-container not mounted
+                        ntptime = data.ntptime
+                    })
+                    .catch(error => console.error(error))
+
+            }
+
+
             return container
+        }
+
+        function updateSchedule(timerSetData) {
+            const keys = Object.keys(timerSetData)
+            const object = timerSetData
+
+            for (let i = 0; i < keys.length; i+=2) {
+                const on = timerSetData[keys[i]];
+                const off = timerSetData[keys[i+1]];
+                const [c,d,p,o] = keys[i].split(/c(\d+)d(\d+)p(\d+)o(\d+)/).filter(n=>n)
+                const col = (+d-0)*8+ +c-1
+                if(on<off) {
+                    const [on_hr,on_min] = on.split(":")
+                    const [off_hr,off_min] = off.split(":")
+                    const rowStart = on_hr * 2 + (on_min > 0 ? 1 : 0)   // 30 min interval
+                    const rowStop = off_hr * 2 + (off_min > 0 ? 1 : 0)   // 30 min interval
+                    for (let row = rowStart; row < rowStop; row++) {
+                        // doesn't work when div.schedule-container not mountee
+                        // console.log("update:" + row +"," + col + "," + on + "," + off)
+                        document.querySelector(".schedule-container .row"+row+".col"+col).classList.remove("coff")
+                        document.querySelector(".schedule-container .row"+row+".col"+col).classList.add("c"+c+"on")
+                    }
+                }
+            }
         }
 
         function createSchedule(timerSetData) {
@@ -294,7 +478,7 @@
             const containerTop = document.querySelector(".schedule-container-top")
             const container = document.createElement("div")
             container.classList.add("schedule-container")
-            containerTop.appendChild(container)
+            // containerTop.appendChild(container)
 
             const scheduleTimeLabel = document.createElement("div")
             scheduleTimeLabel.classList.add("schedule-time-label")
@@ -318,15 +502,15 @@
             gridItem.innerHTML = "Time"
 
             const dow = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
-            dow.forEach((d, i) =>{
+            dow.forEach((d, i) => {
                 const gridItem = document.createElement("div")
-                gridItem.classList.add("col"+ i, "grid-item")
+                gridItem.classList.add("col" + i, "grid-item")
                 gridItem.innerHTML = d
                 scheduleDoW.appendChild(gridItem)
             })
 
-            for(let t=0; t<48;t++) {
-                const timeStr = Math.floor(t/2).toLocaleString('en-US', {minimumIntegerDigits:2,useGrouping:false}) + ":" + (t%2==0?"00":"30")
+            for (let t = 0; t < 48; t++) {
+                const timeStr = Math.floor(t / 2).toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false }) + ":" + (t % 2 == 0 ? "00" : "30")
                 const gridItem = document.createElement("div")
                 gridItem.classList.add("row" + t, "grid-item")
                 gridItem.innerHTML = timeStr
@@ -350,7 +534,7 @@
                     gridItem.classList.add("grid-item")
                     gridItem.classList.add("row" + r, "col" + c)
                     gridItem.classList.add("coff")
-                    gridItem.on
+                    // gridItem.on // wanted to on hover, show timer setting ?
                     // gridItem.innerHTML = channel
                     scheduleData.appendChild(gridItem)
                     if (filteredDataLength > 0) {
@@ -455,7 +639,7 @@
 
 
             daysLabelElement = document.createElement("div")
-            daysLabelElement.classList.add("card-holder","daysLabel")
+            daysLabelElement.classList.add("card-holder", "daysLabel")
             formElement.appendChild(daysLabelElement)
 
             // const gridItem = document.createElement("div")
@@ -465,15 +649,15 @@
 
             timersetDoW = document.querySelector(".timerset-container .daysLabel")
             const dow = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
-            dow.forEach((d, i) =>{
+            dow.forEach((d, i) => {
                 const gridItem = document.createElement("div")
-                gridItem.classList.add("col"+ i, "grid-item","card")
+                gridItem.classList.add("col" + i, "grid-item", "card")
                 gridItem.innerHTML = d
                 timersetDoW.appendChild(gridItem)
             })
 
             controlLabelElement = document.createElement("div")
-            controlLabelElement.classList.add("card-holder","controlLabel")
+            controlLabelElement.classList.add("card-holder", "controlLabel")
             formElement.appendChild(controlLabelElement)
             elem2 = document.createElement("div")
             controlLabelElement.appendChild(elem2)
@@ -481,7 +665,7 @@
             elem2.classList.add("card")
 
             startStopLabelElement = document.createElement("div")
-            startStopLabelElement.classList.add("startStopLabel","card-holder")
+            startStopLabelElement.classList.add("startStopLabel", "card-holder")
             formElement.appendChild(startStopLabelElement)
             /*         */
 
@@ -600,16 +784,16 @@
                     })
 
 
-                            let inputList2 = document.querySelectorAll(".timerset-data input")
-                            inputList2.forEach(input => {
-                                input.name = input.name.replace(/c\d+d/, 'c' + selectedChannel + 'd')
-                            })
-                            // change input names to reference to selectedChannel
-                            // once selected, load values from timerSetData object
+                    let inputList2 = document.querySelectorAll(".timerset-data input")
+                    inputList2.forEach(input => {
+                        input.name = input.name.replace(/c\d+d/, 'c' + selectedChannel + 'd')
+                    })
+                    // change input names to reference to selectedChannel
+                    // once selected, load values from timerSetData object
 
-                            inputList2.forEach((input) => {
-                                input.value = timerSetData[input.name]
-                            })
+                    inputList2.forEach((input) => {
+                        input.value = timerSetData[input.name]
+                    })
 
                 })
                 div.appendChild(channelBtn)
@@ -622,18 +806,20 @@
             let elem = document.querySelector(clsName)
             let classes = elem.className.split(" ").filter(c => !c.endsWith("on"))
             elem.className = classes.join(" ").trim()
-            elem.classList.add("c"+(chNum)+"on")
+            elem.classList.add("c" + (chNum) + "on")
         }
 
         let element1, element2, element3
 
         function init(i) {
-            element1 = createTimerSetRawSummary()
+            element1 = createTimerSetRawSummary2(myVar.timerSetData)
             element2 = createSchedule(myVar.timerSetData)
-            element3 = createTimerSetForm2()
-            createTimerSetForm()
+            element3 = createTimerSetForm2(myVar.timerSetData)
+            // createTimerSetForm()
+            // initChannelButtons()
+        }
 
-
+        function initChannelButtons() {
             createChannelButtons()
 
             animateChannelSwitching(".channel-btn-container", i + 1)
@@ -651,19 +837,19 @@
                 // console.log("input.name=" + input.name)
             })
 
-                    let inputList2 = document.querySelectorAll(".timerset-data input")
-                    inputList2.forEach(input => {
-                        input.name = input.name.replace(/c\d+d/, 'c' + selectedChannel + 'd')
-                        // console.log("input.name=" + input.name)
-                    })
+            let inputList2 = document.querySelectorAll(".timerset-data input")
+            inputList2.forEach(input => {
+                input.name = input.name.replace(/c\d+d/, 'c' + selectedChannel + 'd')
+                // console.log("input.name=" + input.name)
+            })
             // change input names to reference to selectedChannel
             // once selected, load values from timerSetData object
 
-            fetch("/getTimerSetData").then((response=>response.json())).then(data=>{
+            fetch("/getTimerSetData").then((response => response.json())).then(data => {
                 // console.log(data, data.timerSetData)
                 timerSetData = data.timerSetData    // load params5.json into timerSetData 
                 enterData(data.timerSetData)
-            }).catch(error=>console.error(error))
+            }).catch(error => console.error(error))
 
             function enterData(timerSetData) {
                 inputList.forEach((input) => {
@@ -671,40 +857,45 @@
                     // console.log("input.value=" + input.value)
                 })
                 // console.log("timerSetData=" + JSON.stringify(timerSetData))
-                        inputList2.forEach((input) => {
-                            input.value = timerSetData[input.name]
-                            // console.log("input.value=" + input.value)
-                        })
+                inputList2.forEach((input) => {
+                    input.value = timerSetData[input.name]
+                    // console.log("input.value=" + input.value)
+                })
             }
         }
         // end second block
 
         function updateTime() {
             fetch('/get_time')
-            .then(response=>{
-                // console.log('Response:', response); 
-                return response.json()})
-            .then(data=>{
-                // console.log('Data:', data.time)
-                if(data.time!==null) {
-                    const ntpTime = new Date(data.time * 1000)
-                    console.log(ntpTime.toLocaleString())
-                    // const options = {weekday:"long",year:"numeric",mont}
-                    document.querySelector('.ntp-time').textContent = ntpTime.toLocaleString('en-US', { weekday: "long",year:"numeric",month:"short",day:"numeric", hour12: false, hour: "numeric", minute: "numeric",second:"numeric"}) //ntpTime.toUTCString()
-                    checkTimerEvent(ntpTime)
-                }
-            }).catch(error=>console.error(error))
+                .then(response => {
+                    // console.log('Response:', response); 
+                    return response.json()
+                })
+                .then(data => {
+                    // console.log('Data:', data.time)
+                    if (data.time !== null) {
+                        const ntpTime = new Date(data.time * 1000)
+                        console.log(ntpTime.toLocaleString())
+                        // const options = {weekday:"long",year:"numeric",mont}
+                        document.querySelector('.ntp-time').textContent = ntpTime.toLocaleString('en-US', { weekday: "long", year: "numeric", month: "short", day: "numeric", hour12: false, hour: "numeric", minute: "numeric", second: "numeric" }) //ntpTime.toUTCString()
+                        checkTimerEvent(ntpTime)
+                    }
+                }).catch(error => console.error(error))
         }
 
         function checkTimerEvent(ntpTime) {
             let dow = ntpTime.getDay() // ntpTime.getUTCDay()
-            let timeNow = ntpTime.toLocaleString('en-US', { hour12: false, hour: "numeric", minute: "numeric"})
+            let timeNow = ntpTime.toLocaleString('en-US', { hour12: false, hour: "numeric", minute: "numeric" })
             let _timeNow = timeNow.split(":")
-            let rowNow = _timeNow[0] * 2 + (_timeNow[1] > 0 ? 1 : 0) 
+            let rowNow = _timeNow[0] * 2 + (_timeNow[1] > 0 ? 1 : 0)
             // console.log("dow=" + dow + ", timeNow=" + timeNow + ", rowNow=" + rowNow)
-            let dowCol = dow*8 // number of relays = 8
-            for(let i=dowCol; i<dowCol+8; i++) {
-                document.querySelector(".schedule-data .col" + i + ".row" + rowNow).innerHTML = dow
+            let dowCol = dow * 8 // number of relays = 8
+            for (let i = dowCol; i < dowCol + 8; i++) {
+                try {
+                    document.querySelector(".schedule-data .col" + i + ".row" + rowNow).innerHTML = dow
+                } catch(error) {
+                    // console.error(error)
+                }
             }
         }
 
@@ -712,41 +903,63 @@
 
         init(0) // channel 1 first on load
         // updateTime()
-        setInterval(updateTime, 10*1000)
+        setInterval(updateTime, 10 * 1000)
         // let heading = ge(".clock")
         // heading.innerHTML = "<h2>Channel Status @ {{ntptime}}</h2>"
 
     </script>
 
-<script>
+    <script>
 
-    const home = element1
-    const about = element2
-    const contact = element3
+        const summary = element1
+        const schedule = element2 // update schedule where necessary since form may have been resubmitted
+        const timerset = element3
+        
+        const routes = { // these are window.location.pathname too
+            '/': summary,
+            '/schedule': schedule,
+            '/timerset': timerset
+        }
 
-    const routes = {
-        '/': home,
-        '/about': about,
-        '/contact': contact
-    }
+        const rootDiv = document.querySelector('#root')
+        // rootDiv.appendChild(routes['/'])
+        rootDiv.appendChild(routes['/'])
 
-    const rootDiv = document.querySelector('#root')
-    // rootDiv.appendChild(routes['/'])
+        function onNavigate(pathname) {
+            // console.log(pathname)
+            console.log(window.location.origin + pathname)
+            // const url = new URL(pathname, window.location.href)
+            window.history.pushState(
+                {page:pathname}, {}, window.location.origin + pathname
+            )
+            if (rootDiv.hasChildNodes())
+                rootDiv.removeChild(rootDiv.children[0])
+            rootDiv.appendChild(routes[pathname])
+            if(pathname === "/schedule") {
+                updateSchedule(myVar.timerSetData)
+            }
+            console.log("push")
+        }
 
-    function onNavigate(pathname) {
-        window.history.pushState(
-            {}, pathname, window.location.pathname
-        )
-        rootDiv.removeChild(rootDiv.children[0])
-        rootDiv.appendChild(routes[pathname])
-    }
+        window.onpopstate = (e) => {
+            if (rootDiv.hasChildNodes())
+                rootDiv.removeChild(rootDiv.children[0])
+            // console.log(window.location.pathname)
+            console.log(window.location.pathname)
+            // console.log(pathname)
 
-    window.onpopstate = () => {
-        rootDiv.removeChild(rootDiv.children[0])
-        rootDiv.appendChild(routes[window.location.pathname])
-    }
-    
-</script>
+            // console.log(e.state.url)
+            
+            rootDiv.appendChild(routes[window.location.pathname])
+            if(e.state && e.state.page === "/schedule") {
+                console.log(e.state)
+                console.log(window.location.pathname)
+                updateSchedule(myVar.timerSetData)
+            }
+            console.log("pop")
+        }
+
+    </script>
 </body>
 
 
