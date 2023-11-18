@@ -11,8 +11,8 @@ params.json
 
 bootstrap/
 jquery-3.7.1.min.js
-params4.json
-params5.json
+# params4.json
+# params5.json
 static/css/style_spa.css
 static/js/about.js
 static/js/app.js

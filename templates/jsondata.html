@@ -144,6 +144,8 @@
         // p=0,1,2,3 -> 4 available periods
         // o=0,1 -> on,off channels
 
+        // need to handle timerSetData between pages and submit. also handle illegal timersetdata i.e. on>off and remove empty timersetdata and a way to delete/clear data/all data w/ confirm button
+
         myVar = myFunc({{ jsondata| tojson}})
         function myFunc(vars) {
             console.log("myFunc" + vars)
@@ -151,73 +153,13 @@
         }
 
         let selectedChannel = "1"
-        let timerSetData = {}
+        let timerSetData = myVar.timerSetData   // copy reference.to clone, use structuredClone() or in the past JSON.parse(JSON.stringify())
+        let localTimerSetData = structuredClone(myVar.timerSetData)
 
         // first block --- creating timerset raw summary
 
-        function createTimerSetRawSummary() {
-
-            const containerTop = document.querySelector(".timersetrawsummary-top")
-            const grid = document.createElement("div")
-            grid.classList.add("grid-container")
-            // containerTop.appendChild(grid)
-
-            // this for loop may not be necessary anymore now that we have row col classes
-            for (let i = 0; i < 448; i++) {
-                let gridItem = document.createElement("div")
-                gridItem.classList.add("grid-item")
-                // gridItem.id = "x" + myMap(i)
-                grid.appendChild(gridItem)
-                // gridItem.classList.add("y" + i)
-            }
-            document.querySelectorAll(".grid-container .grid-item").forEach(((elem, key) => {
-                row = Math.floor(key / 56)
-                col = key % 56
-                elem.classList.add("row" + row, "col" + col)
-            }))
-
-            console.log("populateFirstTableData")
-
-            fetch("/getTimerSetData").then((response => response.json())).then(data => {
-                console.log("/getTimerSetData: ")
-                console.log(data.timerSetData)
-                timerSetData = data.timerSetData    // load params5.json into timerSetData 
-                enterData(data.timerSetData)
-            }).catch(error => console.error(error))
-
-            function enterData(data) {
-                Object.entries(data).forEach((entry) => {
-                    const [key, value] = entry
-                    // console.log(`${key}: ${value}`)
-
-                    let t = key.split(/c(\d+)d(\d+)p(\d+)o(\d+)/).filter(n => n)
-                    // console.log(t)
-                    let c = t[0]
-                    let d = t[1]
-                    let p = t[2]
-                    let o = t[3]
-                    // let col = (parseInt(d)-0)*8+parseInt(c)-1 // number of relays=8, d=day of week, c=channel relay number
-                    let col = (+d - 0) * 8 + +c - 1 // number of relays=8, d=day of week, c=channel relay number
-                    // console.log(key + ', ' + col)
-                    let row = +p * 2 + +o
-                    // console.log(row)
-                    try {
-                        let elem = document.querySelector(".grid-container .row" + row + ".col" + col)
-                        grid.childNodes.forEach
-                        elem.innerHTML = value
-                        elem.classList.add("con")
-                    } catch (error) {
-                        console.error(error)
-                    }
-                })
-            }
-
-            return grid
-        }
-
-
         function createTimerSetRawSummary2(timerSetData) {
-
+            console.log("create summary")
             const containerTop = document.querySelector(".timersetrawsummary-top")
             const grid = document.createElement("div")
             grid.classList.add("grid-container2")
@@ -234,45 +176,25 @@
                     const onoff = r % 2
                     const pattern = "c" + channel + "d" + dow + "p" + period + "o" + onoff
                     // console.log(pattern)
+                    try {
                     const filteredDataKey = Object.keys(timerSetData).filter(key => key.includes(pattern))
                     // console.log(filteredDataKey)
-
+                    } catch (error) {
+                        // console.error(error)
+                    }
                     try {
                         if(timerSetData[filteredDataKey] !== undefined) gridItem.innerHTML = timerSetData[filteredDataKey]
                     } catch (error) {
-                        console.error(error)
+                        // console.error(error)
                     }
                 }
             }
             return grid
         }
 
-
-
-
-
         // end first block
 
         // third block --- creating schedule 
-
-        function createChannelSelectionNavTabs() {
-            const container = document.querySelector(".channel-selection-container")
-            // const html = document.createElement("div")
-            container.innerHTML = '<nav>\
-                                <div class="nav nav-tabs" id="nav-tab" role="tablist">\
-                                <button class="nav-link active" id="nav-channel1-tab" data-bs-toggle="tab" data-bs-target="#nav-channel1" type="button" role="tab" aria-controls="nav-channel1" aria-selected="true">Channel1</button>\
-                                <button class="nav-link" id="nav-channel2-tab" data-bs-toggle="tab" data-bs-target="#nav-channel2" type="button" role="tab" aria-controls="nav-channel2" aria-selected="false">Channel2</button>\
-                                <button class="nav-link" id="nav-channel3-tab" data-bs-toggle="tab" data-bs-target="#nav-channel3" type="button" role="tab" aria-controls="nav-channel3" aria-selected="false">Channel3</button>\
-                                </div>\
-                            </nav>\
-                            <div class="tab-content" id="nav-tabContent">\
-                                <div class="tab-pane fade show active" id="nav-channel1" role="tabpanel" aria-labelledby="nav-channel1-tab">Channel1 Input Form</div>\
-                                <div class="tab-pane fade" id="nav-channel2" role="tabpanel" aria-labelledby="nav-channel2-tab">Channel2 Input Form</div>\
-                                <div class="tab-pane fade" id="nav-channel3" role="tabpanel" aria-labelledby="nav-channel3-tab">Channel3 Input Form</div>\
-                            </div>'
-            // container.innerHTML = html.innerHTML
-        }
-        // createChannelSelectionNavTabs()
 
         function createTimerSetDivTabs(timerSetData) {
             const tabContainer = document.createElement("ul")
@@ -300,7 +222,11 @@
                     // once selected, load values from timerSetData object
 
                     inputList.forEach((input) => {
-                        input.value = timerSetData[input.name]
+                        try {
+                            input.value = localTimerSetData[input.name]
+                        } catch (error) {
+
+                        }
                     })
                 })
                 tabItem.appendChild(tabLink)
@@ -312,23 +238,12 @@
             tabContainer.insertAdjacentElement("afterbegin", tabDivLabel)
 
             return tabContainer
-            // return `<ul class="nav nav-tabs">\
-            //             <li class="nav-item"><a class="nav-link active" onclick="selectChannel(this); return false;">Channel1</a></li>\
-            //             <li class="nav-item"><a class="nav-link" onclick="selectChannel(this); return false;">Channel2</a></li>\
-            //             <li class="nav-item"><a class="nav-link" onclick="selectChannel(this); return false;">Channel3</a></li>\
-            //         </ul>`
-        }
 
-
-        function selectChannel(elem) {
-            const btns = document.querySelectorAll(".nav-tabs .nav-link")
-            btns.forEach(btn => btn.classList.remove("active"))
-            elem.classList.add("active")
         }
 
         function createTimerSetForm2(timerSetData) {
             // create container and insertBefore channel tabs and timerset2-container
-
+            console.log("create timerset form")
             const containerTop = document.querySelector(".timerset2-container-top")
             
             const container = document.createElement("div")
@@ -410,11 +325,27 @@
                     } else {
                         input.name = "c" + _c + "d" + _d + "p" + _p + "o1"
                     }
+                    // should save in localStorage first. otherwise, updateSchedule (when switching tabs) will show changed values.
+                    // what is desirable is that schedule only shows submitted values 
                     input.addEventListener('change', function () {
-                        timerSetData[this.name] = this.value
+                        console.log("change")
+                        console.log(timerSetData)
+                        console.log(this.name + " = " + this.value)
+                        // check no empty values, check valid vale and on off range
+                        // timerSetData[this.name] = this.value
+                        if(this.value !== '')
+                            localTimerSetData[this.name] = this.value
+                        else
+                            delete localTimerSetData[this.name]
+                        // check ...o1 > ...o0
                     })
                     // initialization - fill relevant input with timerset data (check initChannelButtons())
-                    input.value = timerSetData[input.name]
+                    try {
+                        input.value = timerSetData[input.name]
+                        console.log(timerSetData)
+                    } catch (error) {
+
+                    }
                 }
             }
 
@@ -430,12 +361,23 @@
             function postData(e) {
                 // alert("clicked button, channel=" + selectedChannel)
                 e.preventDefault()
-
-                fetch("/", { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ "timerSetData": timerSetData }) })
+                // Object.keys(localTimerSetData).forEach((key) => timerSetData[key] = localTimerSetData[key])
+                timerSetData = structuredClone(localTimerSetData)
+                console.log(timerSetData)
+                // ensure there are no empty input
+                // Object.entries(timerSetData).filter(([k,v]) => v !== '' )
+                // localTimerSetData = {}  // reset
+                fetch("/", { 
+                    method: 'POST', 
+                    headers: { 'Content-Type': 'application/json' }, 
+                    body: JSON.stringify({ "timerSetData": timerSetData }) // should submit localStorage values
+                })
                     .then(response => response.json())
                     .then(data => {
                         // console.log(data); 
                         myVar.timerSetData = data.jsondata.timerSetData;
+                        localTimerSetData = structuredClone(myVar.timerSetData)
+                        timerSetData = myVar.timerSetData
                         // mydata2 = data;
                         // populateScheduleData(timerSetData)
                         // updateSchedule(timerSetData)    // doesn't work when div.schedule-container not mounted
@@ -450,8 +392,20 @@
         }
 
         function updateSchedule(timerSetData) {
+            console.log("update schedule")
+            console.log(timerSetData)
             const keys = Object.keys(timerSetData)
             const object = timerSetData
+
+            // from chatgpt; off all colors
+            document.querySelectorAll(".schedule-container .schedule-data .grid-item").forEach((el) => {
+                let classes = el.classList
+                for (let i = 0; i < classes.length; i++) {
+                    if(/^c[1-8]+on$/.test(classes[i])) {
+                        classes.remove(classes[i])
+                    }                  
+                }
+            })
 
             for (let i = 0; i < keys.length; i+=2) {
                 const on = timerSetData[keys[i]];
@@ -459,11 +413,13 @@
                 const [c,d,p,o] = keys[i].split(/c(\d+)d(\d+)p(\d+)o(\d+)/).filter(n=>n)
                 const col = (+d-0)*8+ +c-1
                 if(on<off) {
+                    console.log("on<off")
                     const [on_hr,on_min] = on.split(":")
                     const [off_hr,off_min] = off.split(":")
                     const rowStart = on_hr * 2 + (on_min > 0 ? 1 : 0)   // 30 min interval
                     const rowStop = off_hr * 2 + (off_min > 0 ? 1 : 0)   // 30 min interval
                     for (let row = rowStart; row < rowStop; row++) {
+                        console.log("update class: row=" + row + ",col=" + col)
                         // doesn't work when div.schedule-container not mountee
                         // console.log("update:" + row +"," + col + "," + on + "," + off)
                         document.querySelector(".schedule-container .row"+row+".col"+col).classList.remove("coff")
@@ -474,7 +430,7 @@
         }
 
         function createSchedule(timerSetData) {
-
+            console.log("create schedule")
             const containerTop = document.querySelector(".schedule-container-top")
             const container = document.createElement("div")
             container.classList.add("schedule-container")
@@ -516,18 +472,25 @@
                 gridItem.innerHTML = timeStr
                 scheduleTime.appendChild(gridItem)
             }
-
+            try{
             const keys = Object.keys(timerSetData)
-            const timerSetDataLength = Object.keys(timerSetData).length
+            const timerSetDataLength = keys.length
+            } catch (error) {
+
+            }
 
             for (let c = 0; c < 56; c++) {
                 const channel = c % 8 + 1
                 const dow = Math.floor(c / 8)
                 const pattern = "c" + channel + "d" + dow
+
+                try {
                 filteredData = filterData(timerSetData, pattern)
                 const filteredDataKeys = Object.keys(filteredData)
                 const filteredDataLength = Object.keys(filteredData).length
+                } catch (error) {
 
+                }
                 // console.log(pattern + ", " + Object.keys(filteredData).length)
                 for (let r = 0; r < 48; r++) {
                     const gridItem = document.createElement("div")
@@ -537,19 +500,23 @@
                     // gridItem.on // wanted to on hover, show timer setting ?
                     // gridItem.innerHTML = channel
                     scheduleData.appendChild(gridItem)
-                    if (filteredDataLength > 0) {
-                        for (let i = 0; i < filteredDataLength; i = i + 2) {
-                            const on = filteredData[filteredDataKeys[i]]
-                            const off = filteredData[filteredDataKeys[i + 1]]
-                            const timeStr = Math.floor(r / 2).toLocaleString('en-US', {
-                                minimumIntegerDigits: 2, useGrouping: false
-                            }) + ":" + (r % 2 == 0 ? "00" : "30")
+                    try {
+                        if (filteredDataLength > 0) {
+                            for (let i = 0; i < filteredDataLength; i = i + 2) {
+                                const on = filteredData[filteredDataKeys[i]]
+                                const off = filteredData[filteredDataKeys[i + 1]]
+                                const timeStr = Math.floor(r / 2).toLocaleString('en-US', {
+                                    minimumIntegerDigits: 2, useGrouping: false
+                                }) + ":" + (r % 2 == 0 ? "00" : "30")
 
-                            if (timeStr >= on && timeStr < off) {
-                                gridItem.classList.add("c" + channel + "on")
-                                gridItem.classList.remove("coff")
+                                if (timeStr >= on && timeStr < off) {
+                                    gridItem.classList.add("c" + channel + "on")
+                                    gridItem.classList.remove("coff")
+                                }
                             }
                         }
+                    } catch (error) {
+                        
                     }
                 }
             }
@@ -583,170 +550,6 @@
                 return filteredData
             }
             return container
-        }
-
-        // from chatgpt
-        // function filterData(inputData, substringToMatch) {
-
-        //     // const inputData = {
-        //     //     "timerSetData": {
-        //     //         "c1d1p0o0": "08:00",
-        //     //         "c1d1p0o1": "09:09",
-        //     //         "c1d1p1o0": "10:00",
-        //     //         "c1d1p1o1": "11:00",
-        //     //         "c1d1p2o0": "11:00",
-        //     //         "c1d1p2o1": "15:00",
-        //     //         "c2d4p0o0": "04:00",
-        //     //         "c2d4p0o1": "06:00",
-        //     //         "c4d3p0o0": "07:00",
-        //     //         "c4d3p0o1": "09:00",
-        //     //         "c4d3p1o0": "17:00",
-        //     //         "c4d3p1o1": "18:09"
-        //     //     }
-        //     // }
-        //     // const substringToMatch = "c4d3"
-
-        //     const filteredEntries = Object.entries(myVar.timerSetData).filter(([key,_])=>key.includes(substringToMatch))
-
-        //     const filteredData = Object.fromEntries(filteredEntries)
-
-        //     // console.log(filteredData)
-
-        //     return filteredData
-        // }
-
-        // filterData()
-
-        // end third block
-
-        // second block --- creating input table for timer set
-
-        function createTimerSetForm() {
-            let formElement = document.createElement("form")
-            formElement.name = 'timerset'
-            // formElement.method='POST'
-            // formElement.action='/postdata'
-
-            formElement.id = "myForm"
-            let timerset = document.querySelector(".timerset-container")
-
-            timerset.appendChild(formElement)
-
-            timerSetElement = document.createElement("div")
-            timerSetElement.classList.add("card-holder", "timerSet")
-            // timerSetElement.id = "timerSet"
-            formElement.appendChild(timerSetElement)
-
-
-            daysLabelElement = document.createElement("div")
-            daysLabelElement.classList.add("card-holder", "daysLabel")
-            formElement.appendChild(daysLabelElement)
-
-            // const gridItem = document.createElement("div")
-            // gridItem.classList.add("grid-item","card")
-            // scheduleTimeLabel.appendChild(gridItem)
-            // gridItem.innerHTML = "Control"
-
-            timersetDoW = document.querySelector(".timerset-container .daysLabel")
-            const dow = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
-            dow.forEach((d, i) => {
-                const gridItem = document.createElement("div")
-                gridItem.classList.add("col" + i, "grid-item", "card")
-                gridItem.innerHTML = d
-                timersetDoW.appendChild(gridItem)
-            })
-
-            controlLabelElement = document.createElement("div")
-            controlLabelElement.classList.add("card-holder", "controlLabel")
-            formElement.appendChild(controlLabelElement)
-            elem2 = document.createElement("div")
-            controlLabelElement.appendChild(elem2)
-            elem2.innerHTML = "Control"
-            elem2.classList.add("card")
-
-            startStopLabelElement = document.createElement("div")
-            startStopLabelElement.classList.add("startStopLabel", "card-holder")
-            formElement.appendChild(startStopLabelElement)
-            /*         */
-
-            for (let i = 0; i < 8; i++) {
-                let div = document.createElement("div")
-                div.classList.add("card")
-                startStopLabelElement.appendChild(div)
-                div.classList.add("row" + (i))
-
-                if (i % 2 == 0) div.innerHTML = "Start"
-                if (i % 2 == 1) div.innerHTML = "Stop"
-
-            }
-            // creating input elements for entering start and stop times. remember to include name attribute to use json format
-
-
-            // col by col per channel
-            for (let i = 0; i < 56; i++) {
-                let inputdiv = document.createElement("div")
-                inputdiv.classList.add("card")
-                inputdiv.classList.add("col" + (Math.floor(i / 8)))
-                inputdiv.classList.add("row" + (i % 8))
-                timerSetElement.appendChild(inputdiv)
-                let input = document.createElement("input")
-                inputdiv.appendChild(input)
-                input.type = "time"
-
-                let _c = selectedChannel
-                let _d = Math.floor(i / 8)
-                let _p = (Math.floor(i / 2)) % 4
-                let _o = i % 2
-                if ((i % 2 == 0)) {
-                    input.name = "c" + _c + "d" + _d + "p" + _p + "o0"
-                } else {
-                    input.name = "c" + _c + "d" + _d + "p" + _p + "o1"
-                }
-                let inputdivlabel = document.createElement("div")
-                // inputdivlabel.innerHTML=i
-                inputdivlabel.classList.add("inputlabel")
-                inputdiv.appendChild(inputdivlabel)
-
-                input.addEventListener('change', function () {
-                    timerSetData[this.name] = this.value
-                })
-            }
-
-            // create submit button for form
-            let divElement = document.createElement("div")
-            divElement.classList.add("submitDiv")
-            formElement.appendChild(divElement)
-
-
-            // https://developer.mozilla.org/en-US/docs/Web/API/HTMLFormElement/submit
-            // A form control (such as a submit button) with a name or id of submit will mask the form's submit method. Trying to call myForm.submit(); throws an error "submit is not a function" because in this case submit refers to the form control which has a name or id of submit.
-
-            let submitElement = document.createElement("button")
-            submitElement.name = "submitBtn"
-            submitElement.classList.add("submitBtn")
-            submitElement.classList.add("btn", "btn-light")
-            submitElement.innerHTML = "Enter"
-
-            divElement.appendChild(submitElement)
-
-            submitElement.onclick = (e) => postData(e)
-
-            function postData(e) {
-                // alert("clicked button, channel=" + selectedChannel)
-                e.preventDefault()
-
-                fetch("/jsondata/", { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ "timerSetData": timerSetData }) })
-                    .then(response => response.json())
-                    .then(data => {
-                        console.log(data); timerSetData = data.jsondata.timerSetData; mydata2 = data; populateScheduleData(timerSetData)
-                        ntptime = data.ntptime
-                    })
-                    .catch(error => console.error(error))
-
-            }
-
-            return formElement
-
         }
 
         function createChannelButtons() {
@@ -812,6 +615,7 @@
         let element1, element2, element3
 
         function init(i) {
+            console.log(myVar.timerSetData)
             element1 = createTimerSetRawSummary2(myVar.timerSetData)
             element2 = createSchedule(myVar.timerSetData)
             element3 = createTimerSetForm2(myVar.timerSetData)
@@ -926,9 +730,6 @@
         rootDiv.appendChild(routes['/'])
 
         function onNavigate(pathname) {
-            // console.log(pathname)
-            console.log(window.location.origin + pathname)
-            // const url = new URL(pathname, window.location.href)
             window.history.pushState(
                 {page:pathname}, {}, window.location.origin + pathname
             )
@@ -936,27 +737,26 @@
                 rootDiv.removeChild(rootDiv.children[0])
             rootDiv.appendChild(routes[pathname])
             if(pathname === "/schedule") {
-                updateSchedule(myVar.timerSetData)
+                try {
+                    updateSchedule(myVar.timerSetData)
+                } catch (error) {
+
+                }
             }
-            console.log("push")
         }
 
         window.onpopstate = (e) => {
             if (rootDiv.hasChildNodes())
                 rootDiv.removeChild(rootDiv.children[0])
-            // console.log(window.location.pathname)
-            console.log(window.location.pathname)
-            // console.log(pathname)
-
-            // console.log(e.state.url)
             
             rootDiv.appendChild(routes[window.location.pathname])
             if(e.state && e.state.page === "/schedule") {
-                console.log(e.state)
-                console.log(window.location.pathname)
-                updateSchedule(myVar.timerSetData)
+                try {
+                    updateSchedule(myVar.timerSetData)
+                } catch (error) {
+
+                }          
             }
-            console.log("pop")
         }
 
     </script>
