@@ -97,7 +97,7 @@
 
 
 .grid-item {
-    border-radius: 5%;
+    /* border-radius: 5%; */
     border: 1px solid rgb(122, 119, 119);
     /* background-color: rgb(175, 237, 175); */
     display: flex;
@@ -235,7 +235,7 @@
     justify-content: center;
     align-items: center; */
     display: grid;
-    background-color: #131920;
+    /* background-color: #131920; */
     padding: 0.1em;
     grid-column: 1;
     grid-row: 1;
@@ -248,7 +248,7 @@
     grid-gap: 0.1em;
     padding: 0.1em;
     grid-template-columns: repeat(7, 1fr);
-    background-color: #131920;
+    /* background-color: #131920; */
     grid-column: 2/9;
     grid-row: 1;
     grid-template-columns: subgrid;
@@ -262,7 +262,7 @@
     grid-gap: 0.1em;
     padding: 0.1em;
     /* background-color: darkmagenta; */
-    background-color: #131920;
+    /* background-color: #131920; */
     /* grid-template-columns: repeat(56, 1fr); */
     /* grid-template-rows: repeat(48, minmax(20px, auto));
     grid-template-columns: repeat(56, 1fr); */
@@ -275,7 +275,7 @@
 .timerset-start-stop {
     /* grid-column: 1;
     grid-row: 2; */
-    background-color: #131920;
+    /* background-color: #131920; */
     display: grid;
     /* grid-template-rows: repeat(48, minmax(20px, auto)); */
     padding: 0.1em;

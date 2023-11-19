@@ -175,18 +175,8 @@
                     const period = Math.floor(r / 2)
                     const onoff = r % 2
                     const pattern = "c" + channel + "d" + dow + "p" + period + "o" + onoff
-                    // console.log(pattern)
-                    try {
-                    const filteredDataKey = Object.keys(timerSetData).filter(key => key.includes(pattern))
-                    // console.log(filteredDataKey)
-                    } catch (error) {
-                        // console.error(error)
-                    }
-                    try {
-                        if(timerSetData[filteredDataKey] !== undefined) gridItem.innerHTML = timerSetData[filteredDataKey]
-                    } catch (error) {
-                        // console.error(error)
-                    }
+                    
+                    if(timerSetData[pattern]) gridItem.innerHTML = timerSetData[pattern]
                 }
             }
             return grid
@@ -201,7 +191,7 @@
             tabContainer.classList.add("nav","nav-tabs")
             for(let i = 0; i < 8; i++) {
                 const tabItem = document.createElement("li")
-                tabItem.classList.add("nav-item")
+                // tabItem.classList.add("nav-item", "c" + (i+1) + "on")
                 const tabLink = document.createElement("a")
                 tabLink.classList.add("nav-link")
                 if (i == 0) tabLink.classList.add("active")
@@ -209,9 +199,6 @@
                 tabLink.addEventListener('click', function(){
                     document.querySelectorAll(".nav-tabs .nav-link").forEach(tab => tab.classList.remove("active"))
                     this.classList.add("active")
-
-
-
                     selectedChannel = this.innerHTML
                     // change input name to reference channel number
                     let inputList = document.querySelectorAll(".timerset-data input")
@@ -228,6 +215,22 @@
 
                         }
                     })
+    
+                    // // from chatgpt; off all colors
+                    // document.querySelectorAll(".timerset2-container .timerset-dow .grid-item, \
+                    // .timerset2-container .timerset-start-stop .grid-item, \
+                    // .timerset2-container .timerset-control-label .grid-item, \
+                    // .timerset2-container .timerset-submit-btn.grid-item").forEach((el) => {
+                    //     let classes = el.classList
+                    //     for (let i = 0; i < classes.length; i++) {
+                    //         if(/^c[1-8]+on$/.test(classes[i])) {
+                    //             classes.remove(classes[i])
+                    //         }                  
+                    //      }
+                    //      classes.add("c" + (i+1) + "on")
+                    // })
+
+            
                 })
                 tabItem.appendChild(tabLink)
                 tabContainer.appendChild(tabItem)
@@ -342,7 +345,7 @@
                     // initialization - fill relevant input with timerset data (check initChannelButtons())
                     try {
                         input.value = timerSetData[input.name]
-                        console.log(timerSetData)
+                        // console.log(timerSetData)
                     } catch (error) {
 
                     }
