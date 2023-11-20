@@ -47,6 +47,10 @@
                             onclick="onNavigate('/schedule'); return false;">Schedule</a></li>
                     <li class="nav-item"><a class="nav-link"
                             onclick="onNavigate('/timerset'); return false;">Timer Set</a></li>
+                    <li class="nav-item"><a class="nav-link"
+                        onclick="onNavigate('/testrelays'); return false;">Test Relays</a></li>
+                    <li class="nav-item"><a class="nav-link"
+                        onclick="onNavigate('/helppage'); return false;">Help</a>
                 </ul>
             </div>
             <div class="clock navbar-text">
@@ -249,8 +253,17 @@
             console.log("create timerset form")
             const containerTop = document.querySelector(".timerset2-container-top")
             
+
+
+
             const container = document.createElement("div")
-            container.classList.add("timerset2-container-top2")
+            container.classList.add("container")
+
+            const titlecontainer = document.createElement("div")
+            titlecontainer.innerHTML = "<h1>Timer Set</h1>"
+            titlecontainer.classList.add("title")
+            container.appendChild(titlecontainer)
+
             
             const timersetDivTabs = document.createElement("div")
             timersetDivTabs.classList.add("timerset-div-tabs")
@@ -304,9 +317,9 @@
                 const div = document.createElement("div")
                 timersetStartStop.appendChild(div)
                 div.classList.add("row" + (i), "grid-item")
-
-                if (i % 2 == 0) div.innerHTML = "Start"
-                if (i % 2 == 1) div.innerHTML = "Stop"
+                const p = Math.floor(i/2) + 1
+                if (i % 2 == 0) div.innerHTML = "Start Period " + p
+                if (i % 2 == 1) div.innerHTML = "Stop Period " + p
             }
 
             for (let c = 0; c < 7; c++) {
@@ -364,12 +377,19 @@
             function postData(e) {
                 // alert("clicked button, channel=" + selectedChannel)
                 e.preventDefault()
+
+                // check validity of input. if ok, post, else, prompt for correction
+
+                if(!checkInputValidity(localTimerSetData)) return
+
                 // Object.keys(localTimerSetData).forEach((key) => timerSetData[key] = localTimerSetData[key])
                 timerSetData = structuredClone(localTimerSetData)
                 console.log(timerSetData)
                 // ensure there are no empty input
                 // Object.entries(timerSetData).filter(([k,v]) => v !== '' )
                 // localTimerSetData = {}  // reset
+
+
                 fetch("/", { 
                     method: 'POST', 
                     headers: { 'Content-Type': 'application/json' }, 
@@ -387,7 +407,13 @@
                         ntptime = data.ntptime
                     })
                     .catch(error => console.error(error))
+                
+            }
 
+            function checkInputValidity(timerSetData) {
+                timerSetData
+
+                return true
             }
 
 
@@ -435,25 +461,35 @@
         function createSchedule(timerSetData) {
             console.log("create schedule")
             const containerTop = document.querySelector(".schedule-container-top")
+
             const container = document.createElement("div")
-            container.classList.add("schedule-container")
+            container.classList.add("container")
+
+            const titlecontainer = document.createElement("div")
+            titlecontainer.innerHTML = "<h1>Schedule</h1>"
+            titlecontainer.classList.add("title")
+            container.appendChild(titlecontainer)
+
+            const schedulecontainer = document.createElement("div")
+            schedulecontainer.classList.add("schedule-container")
             // containerTop.appendChild(container)
+            container.appendChild(schedulecontainer)
 
             const scheduleTimeLabel = document.createElement("div")
             scheduleTimeLabel.classList.add("schedule-time-label")
-            container.appendChild(scheduleTimeLabel)
+            schedulecontainer.appendChild(scheduleTimeLabel)
 
             const scheduleDoW = document.createElement("div")
             scheduleDoW.classList.add("schedule-dow")
-            container.appendChild(scheduleDoW)
+            schedulecontainer.appendChild(scheduleDoW)
 
             const scheduleTime = document.createElement("div")
             scheduleTime.classList.add("schedule-time")
-            container.appendChild(scheduleTime)
+            schedulecontainer.appendChild(scheduleTime)
 
             const scheduleData = document.createElement("div")
             scheduleData.classList.add("schedule-data")
-            container.appendChild(scheduleData)
+            schedulecontainer.appendChild(scheduleData)
 
             const gridItem = document.createElement("div")
             gridItem.classList.add("grid-item")
@@ -555,6 +591,145 @@
             return container
         }
 
+        function createTestRelays() {
+            // relay duration timer
+            let timers = []
+
+            console.log("createTestRelays")
+            const container = document.createElement("div")
+            container.classList.add("container")
+
+            const titlecontainer = document.createElement("div")
+            titlecontainer.innerHTML = "<h1>Test Relays</h1>"
+            titlecontainer.classList.add("title")
+            container.appendChild(titlecontainer)
+
+            resetBtnDiv = document.createElement("div")
+            resetBtnDiv.classList.add("resetBtnDiv")
+            // pageResetBtnDiv.innerHTML = "On/Off"
+            container.appendChild(resetBtnDiv)
+   
+            const resetBtn = document.createElement("button")
+            resetBtn.name = "resetBtn"
+            resetBtn.classList.add("resetBtn", "btn", "btn-danger")
+            resetBtn.innerHTML = "Reset"
+            resetBtn.addEventListener("click", () => {
+                    document.querySelectorAll(".testrelays input").forEach((el) => {
+                        el.checked = false
+                    })
+                    document.querySelectorAll(".testrelays .duration").forEach((el) => {
+                        el.innerHTML = "0 seconds"
+                    })
+                    for(let i = 0; i < timers.length; i++) {
+                        clearInterval(timers[i])
+                    }
+            })
+            resetBtnDiv.appendChild(resetBtn)
+
+
+
+            const relayBtnContainer = document.createElement("div")
+            relayBtnContainer.classList.add("container","testrelays")
+            container.appendChild(relayBtnContainer)
+
+            for (let i = 0; i < 8; i++) {
+                const relayBtnRow = document.createElement("div")
+                relayBtnRow.classList.add("row")
+
+                const colDiv1 = document.createElement("div")
+                colDiv1.classList.add("col-sm-6")
+                relayBtnRow.appendChild(colDiv1)
+                const colDiv2 = document.createElement("div")
+                colDiv2.classList.add("col-sm-3")
+                relayBtnRow.appendChild(colDiv2)
+                const colDiv3 = document.createElement("div")
+                colDiv3.classList.add("col-sm-3")
+                relayBtnRow.appendChild(colDiv3)
+                relayBtnContainer.appendChild(relayBtnRow)
+                
+
+                const c = i + 1
+
+                const label = document.createElement("h6")
+                label.innerHTML = "Channel " + c
+                colDiv1.appendChild(label)
+
+
+                const relayInput = document.createElement("input")
+                relayInput.setAttribute("type","checkbox")
+                // if (c == 1) relayInput.checked = true
+
+                const relaySpan = document.createElement("span")
+                relaySpan.classList.add("slider","round")
+
+                const relaySwitch = document.createElement("div")
+                relaySwitch.classList.add("switch","sw"+c)
+
+                const relayLabel = document.createElement("label")
+                relayLabel.appendChild(relayInput)
+                // relayLabel.classList.add("switch")
+                relayLabel.appendChild(relaySpan)
+
+
+                relayInput.addEventListener("click", function() {
+                    if(this.checked)
+                        state = 1
+                    else 
+                        state = 0
+                    actuateRelay(c, state)
+
+                    if(this.checked) {
+                            timers[i] = setInterval(()=> {
+                            const d = document.querySelector(".c" + c)
+                            let t = parseInt(d.innerHTML.split(" ")[0])
+                            d.innerHTML = t + 1 + " seconds"
+                        }, 1000)
+                    } else {
+                        clearInterval(timers[i])
+                        const d = document.querySelector(".c" + c)
+                        d.innerHTML = "0 seconds"
+                    }
+                })
+
+                relaySwitch.appendChild(relayLabel)
+                colDiv2.appendChild(relaySwitch)
+
+                const relayDuration = document.createElement("div")
+                relayDuration.classList.add("duration","c"+c)
+                relayDuration.innerHTML = "0 seconds"
+
+                colDiv3.appendChild(relayDuration)
+
+            }
+            return container
+        }
+
+        function actuateRelay(channel, state) {
+            state == 1 ?
+            console.log("Channel " + channel + " is activated!") :
+            console.log("Channel " + channel + " is deactivated!")
+
+
+// trigger digitalwrite to channel/gpio
+           fetch("/actuaterelay", { 
+                    method: 'POST', 
+                    headers: { 'Content-Type': 'application/json' }, 
+                    body: JSON.stringify({ "channel": channel, "state": state }) // should submit localStorage values
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data); 
+                        // myVar.timerSetData = data.jsondata.timerSetData;
+                        // localTimerSetData = structuredClone(myVar.timerSetData)
+                        // timerSetData = myVar.timerSetData
+                        // mydata2 = data;
+                        // populateScheduleData(timerSetData)
+                        // updateSchedule(timerSetData)    // doesn't work when div.schedule-container not mounted
+                        // ntptime = data.ntptime
+                    })
+                    .catch(error => console.error(error))
+        }
+
         function createChannelButtons() {
             for (let i = 0; i < 8; i++) {
                 let div = document.createElement("div")
@@ -615,13 +790,21 @@
             elem.classList.add("c" + (chNum) + "on")
         }
 
-        let element1, element2, element3
+        function createHelpPage() {
+            const container = document.createElement("div")
+            container.innerHTML = "Help"
+            return container
+        }
+
+        let element1, element2, element3, element4, element5
 
         function init(i) {
             console.log(myVar.timerSetData)
             element1 = createTimerSetRawSummary2(myVar.timerSetData)
             element2 = createSchedule(myVar.timerSetData)
             element3 = createTimerSetForm2(myVar.timerSetData)
+            element4 = createTestRelays()
+            element5 = createHelpPage()
             // createTimerSetForm()
             // initChannelButtons()
         }
@@ -721,11 +904,15 @@
         const summary = element1
         const schedule = element2 // update schedule where necessary since form may have been resubmitted
         const timerset = element3
-        
+        const testrelays = element4
+        const helppage = element5
+
         const routes = { // these are window.location.pathname too
             '/': summary,
             '/schedule': schedule,
-            '/timerset': timerset
+            '/timerset': timerset,
+            '/testrelays': testrelays,
+            '/helppage': helppage
         }
 
         const rootDiv = document.querySelector('#root')
