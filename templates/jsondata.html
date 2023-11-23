@@ -158,16 +158,46 @@
 
         let selectedChannel = "1"
         let timerSetData = myVar.timerSetData   // copy reference.to clone, use structuredClone() or in the past JSON.parse(JSON.stringify())
-        let localTimerSetData = structuredClone(myVar.timerSetData)
+        let localTimerSetData = { ...myVar.timerSetData }//structuredClone(myVar.timerSetData)
 
         // first block --- creating timerset raw summary
 
         function createTimerSetRawSummary2(timerSetData) {
             console.log("create summary")
             const containerTop = document.querySelector(".timersetrawsummary-top")
+
+            const gridContainer = document.createElement("div")
+            gridContainer.classList.add("grid-container2-top")
+
+            const gridChannels = document.createElement("div")
+            gridChannels.classList.add("grid-channels")
+            gridContainer.appendChild(gridChannels)
+
+            for(let i = 0; i < 56; i++) {
+                const c = i % 8 + 1
+                const gridItem = document.createElement("div")
+                gridItem.classList.add("col" + i, "grid-item")
+                gridItem.innerHTML = c
+                gridChannels.appendChild(gridItem)
+            }
+
+            const gridDow = document.createElement("div")
+            gridDow.classList.add("grid-dow")
+            // containerTop.appendChild(grid)
+            gridContainer.appendChild(gridDow)
+
+            const dow = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
+            dow.forEach((d, i) => {
+                const gridItem = document.createElement("div")
+                gridItem.classList.add("col" + i, "grid-item")
+                gridItem.innerHTML = d
+                gridDow.appendChild(gridItem)
+            })
+
             const grid = document.createElement("div")
             grid.classList.add("grid-container2")
             // containerTop.appendChild(grid)
+            gridContainer.appendChild(grid)
 
             for (let c = 0; c < 56; c++) {
                 for (let r = 0; r < 8; r++) {
@@ -183,7 +213,7 @@
                     if(timerSetData[pattern]) gridItem.innerHTML = timerSetData[pattern]
                 }
             }
-            return grid
+            return gridContainer
         }
 
         // end first block
@@ -208,6 +238,8 @@
                     let inputList = document.querySelectorAll(".timerset-data input")
                     inputList.forEach(input => {
                         input.name = input.name.replace(/c\d+d/, 'c' + selectedChannel + 'd')
+                        input.classList.value = input.classList.value.replace(/c\d+d/g, 'c' + selectedChannel + 'd')
+                        console.log(input.classList)
                     })
                     // change input names to reference to selectedChannel
                     // once selected, load values from timerSetData object
@@ -219,6 +251,61 @@
 
                         }
                     })
+
+                    let inputDivList = document.querySelectorAll(".timerset-data .grid-item")
+                    inputDivList.forEach(div => {
+                        div.classList.value = div.classList.value.replace(/c\d+d/g, 'c' + selectedChannel + 'd')
+                    })
+
+
+                    // highlight input errors. reset after switching page
+                    inputList.forEach(el => {
+                        el.classList.remove("is-invalid")
+                        el.classList.remove("is-valid")
+                    }) 
+                    inputList.forEach((input) => {
+                        if(input.value !== '') {
+                            console.log(input.name)
+                            if(input.name.endsWith("0")) {
+                                let prefix = input.name.substring(0,input.name.length-1)
+                                const that = document.querySelector("input." + prefix + "1")
+                                console.log("input=" + input.value + " and that=" + that.value)
+                                if(input.value < that.value) {
+                                    console.log("valid")
+                                    document.querySelector("input." + input.name).classList.remove("is-invalid")
+                                    document.querySelector("input." + that.name).classList.remove("is-invalid")
+                                    document.querySelector("input." + input.name).classList.add("is-valid")
+                                    document.querySelector("input." + that.name).classList.add("is-valid")
+                                }
+                                else {
+                                    console.log("invalid")
+                                    document.querySelector("input." + input.name).classList.remove("is-valid")
+                                    document.querySelector("input." + that.name).classList.remove("is-valid")
+                                    document.querySelector("input." + input.name).classList.add("is-invalid")
+                                    document.querySelector("input." + that.name).classList.add("is-invalid")
+                                }
+                            } else if(input.name.endsWith("1")) {
+                                let prefix = input.name.substring(0,input.name.length-1)
+                                const that = document.querySelector("input." + prefix + "0")
+                                console.log("input=" + input.value + " and that=" + that.value)
+                                if(input.value > that.value) {
+                                    console.log("valid")
+                                    document.querySelector("input." + input.name).classList.remove("is-invalid")
+                                    document.querySelector("input." + that.name).classList.remove("is-invalid")
+                                    document.querySelector("input." + input.name).classList.add("is-valid")
+                                    document.querySelector("input." + that.name).classList.add("is-valid")
+                                }
+                                else {
+                                    console.log("invalid")
+                                    document.querySelector("input." + input.name).classList.remove("is-valid")
+                                    document.querySelector("input." + that.name).classList.remove("is-valid")
+                                    document.querySelector("input." + input.name).classList.add("is-invalid")
+                                    document.querySelector("input." + that.name).classList.add("is-invalid")
+                                }
+                            }
+                        }
+                    })
+
     
                     // // from chatgpt; off all colors
                     // document.querySelectorAll(".timerset2-container .timerset-dow .grid-item, \
@@ -326,6 +413,7 @@
                 for (let r = 0; r < 8; r++) {
                     const gridItem = document.createElement("div")
                     gridItem.classList.add("col" + c, "row" + r, "grid-item")
+
                     timersetData.appendChild(gridItem)
 
                     const input = document.createElement("input")
@@ -338,9 +426,16 @@
                     let _o = r % 2
                     if ((_o == 0)) {
                         input.name = "c" + _c + "d" + _d + "p" + _p + "o0"
+                        input.classList.add("c" + _c + "d" + _d + "p" + _p + "o0")
+                        gridItem.classList.add("c" + _c + "d" + _d + "p" + _p + "o0")
                     } else {
                         input.name = "c" + _c + "d" + _d + "p" + _p + "o1"
+                        input.classList.add("c" + _c + "d" + _d + "p" + _p + "o1")
+                        gridItem.classList.add("c" + _c + "d" + _d + "p" + _p + "o1")
                     }
+                    input.classList.add("c" + _c + "d" + _d + "p" + _p)
+                    gridItem.classList.add("c" + _c + "d" + _d + "p" + _p)
+
                     // should save in localStorage first. otherwise, updateSchedule (when switching tabs) will show changed values.
                     // what is desirable is that schedule only shows submitted values 
                     input.addEventListener('change', function () {
@@ -354,7 +449,51 @@
                         else
                             delete localTimerSetData[this.name]
                         // check ...o1 > ...o0
+
+                        // need to show on createform too...
+                        if(this.value !== '') {
+                            console.log(this.name)
+                            if(this.name.endsWith("0")) {
+                                let prefix = this.name.substring(0,this.name.length-1)
+                                const that = document.querySelector("input." + prefix + "1")
+                                console.log("this=" + this.value + " and that=" + that.value)
+                                if(this.value < that.value) {
+                                    console.log("valid")
+                                    document.querySelector("input." + this.name).classList.remove("is-invalid")
+                                    document.querySelector("input." + that.name).classList.remove("is-invalid")
+                                    document.querySelector("input." + this.name).classList.add("is-valid")
+                                    document.querySelector("input." + that.name).classList.add("is-valid")
+                                }
+                                else {
+                                    console.log("invalid")
+                                    document.querySelector("input." + this.name).classList.remove("is-valid")
+                                    document.querySelector("input." + that.name).classList.remove("is-valid")
+                                    document.querySelector("input." + this.name).classList.add("is-invalid")
+                                    document.querySelector("input." + that.name).classList.add("is-invalid")
+                                }
+                            } else if(this.name.endsWith("1")) {
+                                let prefix = this.name.substring(0,this.name.length-1)
+                                const that = document.querySelector("input." + prefix + "0")
+                                console.log("this=" + this.value + " and that=" + that.value)
+                                if(this.value > that.value) {
+                                    console.log("valid")
+                                    document.querySelector("input." + this.name).classList.remove("is-invalid")
+                                    document.querySelector("input." + that.name).classList.remove("is-invalid")
+                                    document.querySelector("input." + this.name).classList.add("is-valid")
+                                    document.querySelector("input." + that.name).classList.add("is-valid")
+                                }
+                                else {
+                                    console.log("invalid")
+                                    document.querySelector("input." + this.name).classList.remove("is-valid")
+                                    document.querySelector("input." + that.name).classList.remove("is-valid")
+                                    document.querySelector("input." + this.name).classList.add("is-invalid")
+                                    document.querySelector("input." + that.name).classList.add("is-invalid")
+                                }
+                            }
+                        }
                     })
+
+
                     // initialization - fill relevant input with timerset data (check initChannelButtons())
                     try {
                         input.value = timerSetData[input.name]
@@ -382,13 +521,15 @@
 
                 if(!checkInputValidity(localTimerSetData)) return
 
+                // if valid, should copy localTimerSetData (which keeps local data) into timerSetData and posted to server, instead of myVar.timerSetData
+
                 // Object.keys(localTimerSetData).forEach((key) => timerSetData[key] = localTimerSetData[key])
-                timerSetData = structuredClone(localTimerSetData)
-                console.log(timerSetData)
+                // timerSetData =  { ...myVar.timerSetData } //structuredClone(localTimerSetData)
+                // console.log(timerSetData)
                 // ensure there are no empty input
                 // Object.entries(timerSetData).filter(([k,v]) => v !== '' )
                 // localTimerSetData = {}  // reset
-
+                timerSetData =  { ...localTimerSetData }
 
                 fetch("/", { 
                     method: 'POST', 
@@ -399,7 +540,7 @@
                     .then(data => {
                         // console.log(data); 
                         myVar.timerSetData = data.jsondata.timerSetData;
-                        localTimerSetData = structuredClone(myVar.timerSetData)
+                        localTimerSetData = { ...myVar.timerSetData }//structuredClone(myVar.timerSetData) or Object.assign({},myVar.timerSetData)
                         timerSetData = myVar.timerSetData
                         // mydata2 = data;
                         // populateScheduleData(timerSetData)
@@ -409,13 +550,73 @@
                     .catch(error => console.error(error))
                 
             }
-
+            // compliments of chatgpt
             function checkInputValidity(timerSetData) {
-                timerSetData
+                let valid=1
+                // document.querySelectorAll(".timerset-data .grid-item").forEach(el => el.classList.remove("highlight"))
 
+                const groupEntries = {}
+                let prefixes = [] //"c1d0p1"
+                // Group entries by their prefixes
+                Object.keys(timerSetData).forEach(key => {
+                    const keyPrefix = key.match(/^c\d+d\d+p\d+/)[0]
+                    if(!groupEntries[keyPrefix]) {
+                        groupEntries[keyPrefix] = []
+                    }
+                    groupEntries[keyPrefix].push({key, value: timerSetData[key]})
+                    prefixes.push(keyPrefix)
+                })
+
+                prefixes = prefixes.filter((v,i,self)=>i==self.indexOf(v))
+                console.log(prefixes)
+
+                prefixes.forEach(prefix => {
+                    const [c,d,p,o] = prefix.split(/c(\d+)d(\d+)p(\d+)/).filter(n=>n)
+
+                    const entries = groupEntries[prefix]
+                    if(!entries) {
+                        console.log(`No entries with prefix "${prefix}" found`)
+                        return
+                    }
+
+                    if(entries.length >= 2) {
+                        for (let i = 0; i < entries.length - 1; i++) {
+                            for (let j = i + 1; j < entries.length; j++) {
+                                const entry1 = entries[i];
+                                const entry2 = entries[j];
+                                console.log(entry1)
+                                console.log(entry2)
+                                if(entry1.value < entry2.value) {
+                                    console.log("valid")
+                                    // valid = 1
+                                }
+                                else {
+                                    console.log("invalid")
+                                    const col1 = d
+                                    const col2 = d
+                                    const row1 = +p * 2
+                                    const row2 = +p * 2 + 1 
+                                    console.log(col1)
+                                    console.log(col2)
+                                    console.log(row1)
+                                    console.log(row2)
+                                    console.log(entry1.key)
+                                    // document.querySelector(".col" + col1 + ".row" + row1).classList.add("highlight")
+                                    // document.querySelector(".col" + col2 + ".row" + row2).classList.add("highlight")
+                                    // document.querySelector("." + entry1.key).classList.add("highlight")
+                                    // document.querySelector("." + entry2.key).classList.add("highlight")
+                                    // return false
+                                    valid=0
+                                }
+                            }
+                        }
+                    } else {
+                        console.log(`Not enough matching entries with prefix "${prefix}"`)
+                    }
+                })
+                if(!valid) return false
                 return true
             }
-
 
             return container
         }
@@ -798,6 +999,58 @@
 
         let element1, element2, element3, element4, element5
 
+        function initialCheckInputValidity(input) {
+            console.log("initialCheckInputValidity")
+            if(input.value !== '') {
+                        console.log(input.name)
+                        if(input.name.endsWith("0")) {
+                            let prefix = input.name.substring(0,input.name.length-1)
+                            const that = document.querySelector("input." + prefix + "1")
+                            console.log("input=" + input.value + " and that=" + that.value)
+                            if(input.value < that.value) {
+                                console.log("valid")
+                                document.querySelector("input." + input.name).classList.remove("is-invalid")
+                                document.querySelector("input." + that.name).classList.remove("is-invalid")
+                                document.querySelector("input." + input.name).classList.add("is-valid")
+                                document.querySelector("input." + that.name).classList.add("is-valid")
+                            }
+                            else {
+                                console.log("invalid")
+                                document.querySelector("input." + input.name).classList.remove("is-valid")
+                                document.querySelector("input." + that.name).classList.remove("is-valid")
+                                document.querySelector("input." + input.name).classList.add("is-invalid")
+                                document.querySelector("input." + that.name).classList.add("is-invalid")
+                            }
+                        } else if(input.name.endsWith("1")) {
+                            let prefix = input.name.substring(0,input.name.length-1)
+                            const that = document.querySelector("input." + prefix + "0")
+                            console.log("input=" + input.value + " and that=" + that.value)
+                            if(input.value > that.value) {
+                                console.log("valid")
+                                document.querySelector("input." + input.name).classList.remove("is-invalid")
+                                document.querySelector("input." + that.name).classList.remove("is-invalid")
+                                document.querySelector("input." + input.name).classList.add("is-valid")
+                                document.querySelector("input." + that.name).classList.add("is-valid")
+                            }
+                            else {
+                                console.log("invalid")
+                                document.querySelector("input." + input.name).classList.remove("is-valid")
+                                document.querySelector("input." + that.name).classList.remove("is-valid")
+                                document.querySelector("input." + input.name).classList.add("is-invalid")
+                                document.querySelector("input." + that.name).classList.add("is-invalid")
+                            }
+                        }
+                    }
+        }
+
+        function initCheckForm() {
+            let inputList = document.querySelectorAll(".timerset-data input")
+            console.log("here")
+            inputList.forEach(input => {
+                initialCheckInputValidity(input)
+            })
+        }
+
         function init(i) {
             console.log(myVar.timerSetData)
             element1 = createTimerSetRawSummary2(myVar.timerSetData)
@@ -805,6 +1058,8 @@
             element3 = createTimerSetForm2(myVar.timerSetData)
             element4 = createTestRelays()
             element5 = createHelpPage()
+
+            // initCheckForm()
             // createTimerSetForm()
             // initChannelButtons()
         }
@@ -932,6 +1187,10 @@
                 } catch (error) {
 
                 }
+            }
+
+            if(pathname === "/timerset") {
+                initCheckForm()
             }
         }
 
