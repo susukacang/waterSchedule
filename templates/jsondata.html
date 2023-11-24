@@ -50,7 +50,9 @@
                     <li class="nav-item"><a class="nav-link"
                         onclick="onNavigate('/testrelays'); return false;">Test Relays</a></li>
                     <li class="nav-item"><a class="nav-link"
-                        onclick="onNavigate('/helppage'); return false;">Help</a>
+                        onclick="onNavigate('/description'); return false;">Description</a>
+                    <li class="nav-item"><a class="nav-link"
+                        onclick="onNavigate('/help'); return false;">Help</a>
                 </ul>
             </div>
             <div class="clock navbar-text">
@@ -991,13 +993,93 @@
             elem.classList.add("c" + (chNum) + "on")
         }
 
-        function createHelpPage() {
+        function createDescription() {
             const container = document.createElement("div")
-            container.innerHTML = "Help"
+            container.classList.add("container")
+
+            const titlecontainer = document.createElement("div")
+            titlecontainer.innerHTML = "<h1>Description</h1>"
+            titlecontainer.classList.add("title")
+            container.appendChild(titlecontainer)
+
+            const descriptionArea = document.createElement("div")
+            descriptionArea.classList.add("form-group")
+            const label = document.createElement("label")
+            label.setAttribute("for","notes")
+            label.innerHTML = "Write your notes here:"
+            const textArea = document.createElement("textarea")
+            textArea.classList.add("form-control")
+            textArea.rows = 16
+            // textArea.maxLength = "5000"
+            textArea.id = "notes"
+            descriptionArea.appendChild(label)
+            descriptionArea.appendChild(textArea)
+
+            container.appendChild(descriptionArea)
+
+            // <div class="form-group">
+            // <label for="comment">Comment:</label>
+            // <textarea class="form-control" rows="5" id="comment"></textarea>
+            // </div> 
+
+            const submitBtnDiv = document.createElement("div")
+            submitBtnDiv.classList.add("timerset-submit-btn", "grid-item")
+            container.appendChild(submitBtnDiv)
+
+            const submitElement = document.createElement("button")
+            submitElement.name = "submitBtn"
+            submitElement.classList.add("submitBtn", "btn", "btn-light")
+            submitElement.innerHTML = "Enter"
+
+            submitBtnDiv.appendChild(submitElement)
+
+            submitElement.onclick = (e) => postData(e)
+
+            function postData(e) {
+                // alert("clicked button, channel=" + selectedChannel)
+                e.preventDefault()
+                console.log("notes entered")
+
+                notes = textArea.value
+
+                fetch("/description_notes", { 
+                    method: 'POST', 
+                    headers: { 'Content-Type': 'application/json' }, 
+                    body: JSON.stringify({ "notes": notes }) // should submit localStorage values
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        // console.log(data); 
+                        console.log(data.message.notes)
+                        // textArea.value = data.message.notes
+                    })
+                    .catch(error => console.error(error))
+
+            }
+
+            fetch("/description_notes")
+            .then(response => response.json())
+            .then(data=> { 
+                console.log(data.jsondata.notes)
+                textArea.value = data.jsondata.notes
+            })
+            .catch(error=> console.error(error))
+
             return container
         }
 
-        let element1, element2, element3, element4, element5
+        function createHelp() {
+            const container = document.createElement("div")
+            container.classList.add("container")
+
+            const titlecontainer = document.createElement("div")
+            titlecontainer.innerHTML = "<h1>Help</h1>"
+            titlecontainer.classList.add("title")
+            container.appendChild(titlecontainer)
+            return container
+        }
+
+        let element1, element2, element3, element4, element5, element6
 
         function initialCheckInputValidity(input) {
             console.log("initialCheckInputValidity")
@@ -1057,7 +1139,8 @@
             element2 = createSchedule(myVar.timerSetData)
             element3 = createTimerSetForm2(myVar.timerSetData)
             element4 = createTestRelays()
-            element5 = createHelpPage()
+            element5 = createDescription()
+            element6 = createHelp()
 
             // initCheckForm()
             // createTimerSetForm()
@@ -1160,14 +1243,16 @@
         const schedule = element2 // update schedule where necessary since form may have been resubmitted
         const timerset = element3
         const testrelays = element4
-        const helppage = element5
+        const description = element5
+        const help = element6
 
         const routes = { // these are window.location.pathname too
             '/': summary,
             '/schedule': schedule,
             '/timerset': timerset,
             '/testrelays': testrelays,
-            '/helppage': helppage
+            '/description': description,
+            '/help': help
         }
 
         const rootDiv = document.querySelector('#root')
