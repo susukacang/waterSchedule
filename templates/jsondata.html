@@ -15,119 +15,17 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 
-    <!-- <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script> -->
-    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous"> -->
-    <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script> -->
-
-    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"> -->
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-    <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script> -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
-    <title>Document</title>
+    <title>Water Irrigation Schedule</title>
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-        <div class="container-fluid">
-            <a href="#" class="navbar-brand">
-                <!-- <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512">! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc.<path d="M512 32c0 113.6-84.6 207.5-194.2 222c-7.1-53.4-30.6-101.6-65.3-139.3C290.8 46.3 364 0 448 0h32c17.7 0 32 14.3 32 32zM0 96C0 78.3 14.3 64 32 64H64c123.7 0 224 100.3 224 224v32V480c0 17.7-14.3 32-32 32s-32-14.3-32-32V320C100.3 320 0 219.7 0 96z"/></svg> -->
-                <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 384 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M192 512C86 512 0 426 0 320C0 228.8 130.2 57.7 166.6 11.7C172.6 4.2 181.5 0 191.1 0h1.8c9.6 0 18.5 4.2 24.5 11.7C253.8 57.7 384 228.8 384 320c0 106-86 192-192 192zM96 336c0-8.8-7.2-16-16-16s-16 7.2-16 16c0 61.9 50.1 112 112 112c8.8 0 16-7.2 16-16s-7.2-16-16-16c-44.2 0-80-35.8-80-80z"/></svg>
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="collapsibleNavbar">
-                <ul class="navbar-nav">
-                    <li class="nav-item"><a class="nav-link active"
-                            onclick="onNavigate('/'); return false;">Raw Summary</a></li>
-                    <li class="nav-item"><a class="nav-link"
-                            onclick="onNavigate('/schedule'); return false;">Schedule</a></li>
-                    <li class="nav-item"><a class="nav-link"
-                            onclick="onNavigate('/timerset'); return false;">Timer Set</a></li>
-                    <li class="nav-item"><a class="nav-link"
-                        onclick="onNavigate('/testrelays'); return false;">Test Relays</a></li>
-                    <li class="nav-item"><a class="nav-link"
-                        onclick="onNavigate('/description'); return false;">Description</a>
-                    <li class="nav-item"><a class="nav-link"
-                        onclick="onNavigate('/help'); return false;">Help</a>
-                </ul>
-            </div>
-            <div class="clock navbar-text">
-                <!-- <h1>NTP Time Display</h1> -->
-                <!-- <p>Time from NTP server:  -->
-                    <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#ffffff}</style><path d="M256 0a256 256 0 1 1 0 512A256 256 0 1 1 256 0zM232 120V256c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2V120c0-13.3-10.7-24-24-24s-24 10.7-24 24z"/></svg>
-                    <span class="ntp-time ">Loading...</span>
-                <!-- </p> -->
-            </div>
-        </div>
-    </nav>
-
-    <script>
-        const btns = document.querySelectorAll("nav .navbar-nav .nav-link")
-        btns.forEach((btn => btn.addEventListener("click", function() {
-            btns.forEach(btn => btn.classList.remove("active"))
-            this.classList.add("active")
-        })))
-    </script>
-
     <div class="container-fluid mt-3">
         <div id="root"></div>
-
-        <div class="timersetrawsummary-top"></div>
-        <br />
-
-        <br />
-        <div class="channel-btn-container"></div>
-        <div class="timerset-container"></div>
-        <br />
-        <div class="channel-selection-container">
-
-            <!-- <ul class="nav nav-tabs">
-                <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#home">Home</a></li>
-                <li class="nav-item"><a class="nav-link"  data-toggle="tab" href="#about">About</a></li>
-                <li class="nav-item"><a class="nav-link"  data-toggle="tab" href="#contact">Contact</a></li>
-            </ul>
-
-            <div class="tab-content">
-                <div id="home" class="tab-panec active">
-                    <h3>Home</h3>
-                    <p>Some content</p>
-                </div>
-                <div id="about" class="tab-pane fade">
-                    <h3>About</h3>
-                    <p>About content</p>
-                </div>
-                <div id="contact" class="tab-pane fade">
-                    <h3>Contact</h3>
-                    <p>Contact content</p>
-                </div>
-            </div> -->
-
-        </div>
-        <!-- <nav>
-                <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Home</button>
-                <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Profile</button>
-                <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">Contact</button>
-                </div>
-            </nav>
-            <div class="tab-content" id="nav-tabContent">
-                <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">home</div>
-                <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">profile</div>
-                <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">contact</div>
-            </div>        -->
-        
-        <br />
-        <div class="timerset2-container-top"></div>
-        <br />
-        <div class="schedule-container-top"></div>
-        <!-- <div class="schedule2-container"></div> -->
-        <!-- creating sample data grid and timer summary grid -->
-
-        <div class="relay-container"></div>
     </div>
     <script>
 
@@ -162,14 +60,66 @@
         let timerSetData = myVar.timerSetData   // copy reference.to clone, use structuredClone() or in the past JSON.parse(JSON.stringify())
         let localTimerSetData = { ...myVar.timerSetData }//structuredClone(myVar.timerSetData)
 
-        // first block --- creating timerset raw summary
+        function createNavBar() {
 
-        function createTimerSetRawSummary2(timerSetData) {
+            const body = document.querySelector("body")
+            // const nav = document.createElement("nav")
+            // nav.classList.add("navbar", "navbar-expand-sm", "bg-dark", "navbar-dark")
+            const nav = '<nav class="navbar navbar-expand-sm bg-dark navbar-dark">  \
+        <div class="container-fluid">   \
+            <a href="#" class="navbar-brand">   \
+                <!-- <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512">! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc.<path d="M512 32c0 113.6-84.6 207.5-194.2 222c-7.1-53.4-30.6-101.6-65.3-139.3C290.8 46.3 364 0 448 0h32c17.7 0 32 14.3 32 32zM0 96C0 78.3 14.3 64 32 64H64c123.7 0 224 100.3 224 224v32V480c0 17.7-14.3 32-32 32s-32-14.3-32-32V320C100.3 320 0 219.7 0 96z"/></svg> -->   \
+                <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 384 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M192 512C86 512 0 426 0 320C0 228.8 130.2 57.7 166.6 11.7C172.6 4.2 181.5 0 191.1 0h1.8c9.6 0 18.5 4.2 24.5 11.7C253.8 57.7 384 228.8 384 320c0 106-86 192-192 192zM96 336c0-8.8-7.2-16-16-16s-16 7.2-16 16c0 61.9 50.1 112 112 112c8.8 0 16-7.2 16-16s-7.2-16-16-16c-44.2 0-80-35.8-80-80z"/></svg>   \
+            </a>    \
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar"> \
+                <span class="navbar-toggler-icon"></span>   \
+            </button>   \
+            <div class="collapse navbar-collapse" id="collapsibleNavbar">   \
+                <ul class="navbar-nav"> \
+                    <li class="nav-item"><a class="nav-link active" \
+                            onclick="onNavigate(\'/\'); return false;">Raw Summary</a></li>   \
+                    <li class="nav-item"><a class="nav-link"    \
+                            onclick="onNavigate(\'/schedule\'); return false;">Schedule</a></li>  \
+                    <li class="nav-item"><a class="nav-link"    \
+                            onclick="onNavigate(\'/timerset\'); return false;">Timer Set</a></li> \
+                    <li class="nav-item"><a class="nav-link"    \
+                        onclick="onNavigate(\'/testrelays\'); return false;">Test Relays</a></li> \
+                    <li class="nav-item"><a class="nav-link"    \
+                        onclick="onNavigate(\'/description\'); return false;">Description</a> \
+                    <li class="nav-item"><a class="nav-link"    \
+                        onclick="onNavigate(\'/help\'); return false;">Help</a>   \
+                </ul>   \
+            </div>  \
+            <div class="clock navbar-text"> \
+                <!-- <h1>NTP Time Display</h1> -->  \
+                <!-- <p>Time from NTP server:  -->  \
+                    <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#ffffff}</style><path d="M256 0a256 256 0 1 1 0 512A256 256 0 1 1 256 0zM232 120V256c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2V120c0-13.3-10.7-24-24-24s-24 10.7-24 24z"/></svg>    \
+                    <span class="ntp-time ">Loading...</span>   \
+                <!-- </p> -->   \
+            </div>  \
+        </div>  \
+    </nav>'
+            
+
+            body.insertAdjacentHTML("afterbegin",nav)
+
+            const btns = document.querySelectorAll("nav .navbar-nav .nav-link")
+            btns.forEach((btn => btn.addEventListener("click", function() {
+                btns.forEach(btn => btn.classList.remove("active"))
+                this.classList.add("active")
+            })))
+
+        }
+
+
+
+        function createTimerSetRawSummary(timerSetData) {
             console.log("create summary")
-            const containerTop = document.querySelector(".timersetrawsummary-top")
+            const summaryTopContainer = document.createElement("div")
+            summaryTopContainer.classList.add("container")
 
             const gridContainer = document.createElement("div")
-            gridContainer.classList.add("grid-container2-top")
+            gridContainer.classList.add("grid-container-top")
 
             const gridChannels = document.createElement("div")
             gridChannels.classList.add("grid-channels")
@@ -185,7 +135,6 @@
 
             const gridDow = document.createElement("div")
             gridDow.classList.add("grid-dow")
-            // containerTop.appendChild(grid)
             gridContainer.appendChild(gridDow)
 
             const dow = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
@@ -197,8 +146,7 @@
             })
 
             const grid = document.createElement("div")
-            grid.classList.add("grid-container2")
-            // containerTop.appendChild(grid)
+            grid.classList.add("grid-container")
             gridContainer.appendChild(grid)
 
             for (let c = 0; c < 56; c++) {
@@ -215,12 +163,21 @@
                     if(timerSetData[pattern]) gridItem.innerHTML = timerSetData[pattern]
                 }
             }
-            return gridContainer
+
+            const explanationDiv = document.createElement("div")
+            const explanation = document.createElement("div")
+            explanation.classList.add("summary-notes")
+            explanation.innerHTML = '<h6><b>Explanation</b></h6>\
+                                <p>first row is days of week</p>\
+                                <p>second row is channel numbers</p>\
+                                <p>subsequent rows are intervals 1 to 4, start and stop times</p>'
+            explanationDiv.appendChild(explanation)
+
+            summaryTopContainer.appendChild(gridContainer)
+            summaryTopContainer.appendChild(explanationDiv)
+
+            return summaryTopContainer
         }
-
-        // end first block
-
-        // third block --- creating schedule 
 
         function createTimerSetDivTabs(timerSetData) {
             const tabContainer = document.createElement("ul")
@@ -259,54 +216,31 @@
                         div.classList.value = div.classList.value.replace(/c\d+d/g, 'c' + selectedChannel + 'd')
                     })
 
-
+// start validity highlight
                     // highlight input errors. reset after switching page
                     inputList.forEach(el => {
                         el.classList.remove("is-invalid")
                         el.classList.remove("is-valid")
                     }) 
-                    inputList.forEach((input) => {
-                        if(input.value !== '') {
-                            console.log(input.name)
-                            if(input.name.endsWith("0")) {
-                                let prefix = input.name.substring(0,input.name.length-1)
-                                const that = document.querySelector("input." + prefix + "1")
-                                console.log("input=" + input.value + " and that=" + that.value)
-                                if(input.value < that.value) {
-                                    console.log("valid")
-                                    document.querySelector("input." + input.name).classList.remove("is-invalid")
-                                    document.querySelector("input." + that.name).classList.remove("is-invalid")
-                                    document.querySelector("input." + input.name).classList.add("is-valid")
-                                    document.querySelector("input." + that.name).classList.add("is-valid")
-                                }
-                                else {
-                                    console.log("invalid")
-                                    document.querySelector("input." + input.name).classList.remove("is-valid")
-                                    document.querySelector("input." + that.name).classList.remove("is-valid")
-                                    document.querySelector("input." + input.name).classList.add("is-invalid")
-                                    document.querySelector("input." + that.name).classList.add("is-invalid")
-                                }
-                            } else if(input.name.endsWith("1")) {
-                                let prefix = input.name.substring(0,input.name.length-1)
-                                const that = document.querySelector("input." + prefix + "0")
-                                console.log("input=" + input.value + " and that=" + that.value)
-                                if(input.value > that.value) {
-                                    console.log("valid")
-                                    document.querySelector("input." + input.name).classList.remove("is-invalid")
-                                    document.querySelector("input." + that.name).classList.remove("is-invalid")
-                                    document.querySelector("input." + input.name).classList.add("is-valid")
-                                    document.querySelector("input." + that.name).classList.add("is-valid")
-                                }
-                                else {
-                                    console.log("invalid")
-                                    document.querySelector("input." + input.name).classList.remove("is-valid")
-                                    document.querySelector("input." + that.name).classList.remove("is-valid")
-                                    document.querySelector("input." + input.name).classList.add("is-invalid")
-                                    document.querySelector("input." + that.name).classList.add("is-invalid")
-                                }
+                    inputList.forEach((self) => {
+                        const prefix = self.name.substring(0,self.name.length-2)
+                        const inputs = document.querySelectorAll(`input.${prefix}`)
+                        if(inputs[0].value === '' || inputs[1].value === '') {
+                            inputs.forEach(input=>input.classList.remove("is-valid","is-invalid"))
+                        } else {
+                            if(inputs[0].value < inputs[1].value) {
+                                inputs.forEach(input=>{
+                                    input.classList.remove("is-invalid")
+                                    input.classList.add("is-valid")
+                                })
+                            } else {
+                                inputs.forEach(input=>{
+                                    input.classList.add("is-invalid")
+                                    input.classList.remove("is-valid")
+                                })
                             }
                         }
-                    })
+                     })
 
     
                     // // from chatgpt; off all colors
@@ -337,13 +271,9 @@
 
         }
 
-        function createTimerSetForm2(timerSetData) {
+        function createTimerSetForm(timerSetData) {
             // create container and insertBefore channel tabs and timerset2-container
             console.log("create timerset form")
-            const containerTop = document.querySelector(".timerset2-container-top")
-            
-
-
 
             const container = document.createElement("div")
             container.classList.add("container")
@@ -360,10 +290,8 @@
             container.appendChild(timersetDivTabs)
 
             const timersetContainer = document.createElement("div")
-            timersetContainer.classList.add("timerset2-container")
+            timersetContainer.classList.add("timerset-container")
             container.appendChild(timersetContainer)
-
-            // containerTop.appendChild(container)
 
             const timersetForm = document.createElement("form")
             timersetForm.classList.add("form-group")
@@ -439,67 +367,39 @@
                     gridItem.classList.add("c" + _c + "d" + _d + "p" + _p)
 
                     // should save in localStorage first. otherwise, updateSchedule (when switching tabs) will show changed values.
-                    // what is desirable is that schedule only shows submitted values 
-                    input.addEventListener('change', function () {
-                        console.log("change")
-                        console.log(timerSetData)
-                        console.log(this.name + " = " + this.value)
-                        // check no empty values, check valid vale and on off range
-                        // timerSetData[this.name] = this.value
-                        if(this.value !== '')
-                            localTimerSetData[this.name] = this.value
-                        else
-                            delete localTimerSetData[this.name]
-                        // check ...o1 > ...o0
+                    // what is desirable is that schedule only shows submitted values
 
-                        // need to show on createform too...
-                        if(this.value !== '') {
-                            console.log(this.name)
-                            if(this.name.endsWith("0")) {
-                                let prefix = this.name.substring(0,this.name.length-1)
-                                const that = document.querySelector("input." + prefix + "1")
-                                console.log("this=" + this.value + " and that=" + that.value)
-                                if(this.value < that.value) {
-                                    console.log("valid")
-                                    document.querySelector("input." + this.name).classList.remove("is-invalid")
-                                    document.querySelector("input." + that.name).classList.remove("is-invalid")
-                                    document.querySelector("input." + this.name).classList.add("is-valid")
-                                    document.querySelector("input." + that.name).classList.add("is-valid")
-                                }
-                                else {
-                                    console.log("invalid")
-                                    document.querySelector("input." + this.name).classList.remove("is-valid")
-                                    document.querySelector("input." + that.name).classList.remove("is-valid")
-                                    document.querySelector("input." + this.name).classList.add("is-invalid")
-                                    document.querySelector("input." + that.name).classList.add("is-invalid")
-                                }
-                            } else if(this.name.endsWith("1")) {
-                                let prefix = this.name.substring(0,this.name.length-1)
-                                const that = document.querySelector("input." + prefix + "0")
-                                console.log("this=" + this.value + " and that=" + that.value)
-                                if(this.value > that.value) {
-                                    console.log("valid")
-                                    document.querySelector("input." + this.name).classList.remove("is-invalid")
-                                    document.querySelector("input." + that.name).classList.remove("is-invalid")
-                                    document.querySelector("input." + this.name).classList.add("is-valid")
-                                    document.querySelector("input." + that.name).classList.add("is-valid")
-                                }
-                                else {
-                                    console.log("invalid")
-                                    document.querySelector("input." + this.name).classList.remove("is-valid")
-                                    document.querySelector("input." + that.name).classList.remove("is-valid")
-                                    document.querySelector("input." + this.name).classList.add("is-invalid")
-                                    document.querySelector("input." + that.name).classList.add("is-invalid")
-                                }
+                    input.addEventListener('change', function() {
+                        const prefix = this.name.substring(0,this.name.length-2)
+                        const inputs = document.querySelectorAll(`input.${prefix}`)
+                        if(inputs[0].value === '' || inputs[1].value === '') {
+                            inputs.forEach(input=>input.classList.remove("is-valid","is-invalid"))
+                        } else {
+                            if(inputs[0].value < inputs[1].value) {
+                                inputs.forEach(input=>{
+                                    input.classList.remove("is-invalid")
+                                    input.classList.add("is-valid")
+                                })
+                            } else {
+                                inputs.forEach(input=>{
+                                    input.classList.add("is-invalid")
+                                    input.classList.remove("is-valid")
+                                })
                             }
                         }
+                        if(this.value!=='') {
+                            localTimerSetData[this.name] = this.value
+                        } else {
+                            delete localTimerSetData[this.name]
+                        }
                     })
-
+                    // end change event
 
                     // initialization - fill relevant input with timerset data (check initChannelButtons())
                     try {
                         input.value = timerSetData[input.name]
                         // console.log(timerSetData)
+                        checkInputValidity(timerSetData)
                     } catch (error) {
 
                     }
@@ -525,12 +425,6 @@
 
                 // if valid, should copy localTimerSetData (which keeps local data) into timerSetData and posted to server, instead of myVar.timerSetData
 
-                // Object.keys(localTimerSetData).forEach((key) => timerSetData[key] = localTimerSetData[key])
-                // timerSetData =  { ...myVar.timerSetData } //structuredClone(localTimerSetData)
-                // console.log(timerSetData)
-                // ensure there are no empty input
-                // Object.entries(timerSetData).filter(([k,v]) => v !== '' )
-                // localTimerSetData = {}  // reset
                 timerSetData =  { ...localTimerSetData }
 
                 fetch("/", { 
@@ -544,9 +438,6 @@
                         myVar.timerSetData = data.jsondata.timerSetData;
                         localTimerSetData = { ...myVar.timerSetData }//structuredClone(myVar.timerSetData) or Object.assign({},myVar.timerSetData)
                         timerSetData = myVar.timerSetData
-                        // mydata2 = data;
-                        // populateScheduleData(timerSetData)
-                        // updateSchedule(timerSetData)    // doesn't work when div.schedule-container not mounted
                         ntptime = data.ntptime
                     })
                     .catch(error => console.error(error))
@@ -554,6 +445,8 @@
             }
             // compliments of chatgpt
             function checkInputValidity(timerSetData) {
+                console.log(timerSetData)
+
                 let valid=1
                 // document.querySelectorAll(".timerset-data .grid-item").forEach(el => el.classList.remove("highlight"))
 
@@ -586,37 +479,14 @@
                             for (let j = i + 1; j < entries.length; j++) {
                                 const entry1 = entries[i];
                                 const entry2 = entries[j];
-                                console.log(entry1)
-                                console.log(entry2)
-                                if(entry1.value < entry2.value) {
-                                    console.log("valid")
-                                    // valid = 1
-                                }
-                                else {
-                                    console.log("invalid")
-                                    const col1 = d
-                                    const col2 = d
-                                    const row1 = +p * 2
-                                    const row2 = +p * 2 + 1 
-                                    console.log(col1)
-                                    console.log(col2)
-                                    console.log(row1)
-                                    console.log(row2)
-                                    console.log(entry1.key)
-                                    // document.querySelector(".col" + col1 + ".row" + row1).classList.add("highlight")
-                                    // document.querySelector(".col" + col2 + ".row" + row2).classList.add("highlight")
-                                    // document.querySelector("." + entry1.key).classList.add("highlight")
-                                    // document.querySelector("." + entry2.key).classList.add("highlight")
-                                    // return false
-                                    valid=0
-                                }
+ 
+                                if(entry1.value < entry2.value) return false
                             }
                         }
                     } else {
                         console.log(`Not enough matching entries with prefix "${prefix}"`)
                     }
                 })
-                if(!valid) return false
                 return true
             }
 
@@ -663,7 +533,6 @@
 
         function createSchedule(timerSetData) {
             console.log("create schedule")
-            const containerTop = document.querySelector(".schedule-container-top")
 
             const container = document.createElement("div")
             container.classList.add("container")
@@ -675,7 +544,6 @@
 
             const schedulecontainer = document.createElement("div")
             schedulecontainer.classList.add("schedule-container")
-            // containerTop.appendChild(container)
             container.appendChild(schedulecontainer)
 
             const scheduleTimeLabel = document.createElement("div")
@@ -764,31 +632,8 @@
             }
 
             function filterData(inputData, substringToMatch) {
-
-                // const inputData = {
-                //     "timerSetData": {
-                //         "c1d1p0o0": "08:00",
-                //         "c1d1p0o1": "09:09",
-                //         "c1d1p1o0": "10:00",
-                //         "c1d1p1o1": "11:00",
-                //         "c1d1p2o0": "11:00",
-                //         "c1d1p2o1": "15:00",
-                //         "c2d4p0o0": "04:00",
-                //         "c2d4p0o1": "06:00",
-                //         "c4d3p0o0": "07:00",
-                //         "c4d3p0o1": "09:00",
-                //         "c4d3p1o0": "17:00",
-                //         "c4d3p1o1": "18:09"
-                //     }
-                // }
-                // const substringToMatch = "c4d3"
-
                 const filteredEntries = Object.entries(myVar.timerSetData).filter(([key, _]) => key.includes(substringToMatch))
-
                 const filteredData = Object.fromEntries(filteredEntries)
-
-                // console.log(filteredData)
-
                 return filteredData
             }
             return container
@@ -826,6 +671,12 @@
                     for(let i = 0; i < timers.length; i++) {
                         clearInterval(timers[i])
                     }
+
+                    // should postdata and broadcast to other devices
+                    fetch("/resetrelays")
+                    .then(response=>response.json())
+                    .then(data=>console.log(data))
+                    .catch(error=>{console.error(error)})
             })
             resetBtnDiv.appendChild(resetBtn)
 
@@ -933,66 +784,6 @@
                     .catch(error => console.error(error))
         }
 
-        function createChannelButtons() {
-            for (let i = 0; i < 8; i++) {
-                let div = document.createElement("div")
-                div.classList.add("grid-item", "card")
-                let channelBtn = document.createElement('div')
-                channelBtn.innerHTML = i + 1
-                channelBtn.classList.add("c" + (i + 1) + "on", "channel-btn")
-                // select channel
-                channelBtn.addEventListener("click", function () {
-                    // save form values into local storage first before switching to clicked channel, and send all channels when submit button clicked
-                    // TODO - done
-
-                    animateChannelSwitching(".channel-btn-container", i + 1)
-                    animateChannelSwitching(".daysLabel", i + 1)
-                    animateChannelSwitching(".controlLabel", i + 1)
-                    animateChannelSwitching(".startStopLabel", i + 1)
-                    animateChannelSwitching(".timerset-container", i + 1)
-                    animateChannelSwitching(".submitDiv", i + 1)
-
-                    Array.from(document.querySelectorAll(".channel-btn")).forEach(btn => btn.style.opacity = 0.25)
-                    this.style.opacity = 1.0
-                    selectedChannel = this.innerHTML
-                    // change input name to reference channel number
-                    let inputList = document.querySelectorAll(".timerSet input")
-                    inputList.forEach(input => {
-                        input.name = input.name.replace(/c\d+d/, 'c' + selectedChannel + 'd')
-                    })
-                    // change input names to reference to selectedChannel
-                    // once selected, load values from timerSetData object
-
-                    inputList.forEach((input) => {
-                        input.value = timerSetData[input.name]
-                    })
-
-
-                    let inputList2 = document.querySelectorAll(".timerset-data input")
-                    inputList2.forEach(input => {
-                        input.name = input.name.replace(/c\d+d/, 'c' + selectedChannel + 'd')
-                    })
-                    // change input names to reference to selectedChannel
-                    // once selected, load values from timerSetData object
-
-                    inputList2.forEach((input) => {
-                        input.value = timerSetData[input.name]
-                    })
-
-                })
-                div.appendChild(channelBtn)
-                let channelBtnContainer = document.querySelector(".channel-btn-container")
-                channelBtnContainer.appendChild(div)
-            }
-        }
-
-        function animateChannelSwitching(clsName, chNum) {
-            let elem = document.querySelector(clsName)
-            let classes = elem.className.split(" ").filter(c => !c.endsWith("on"))
-            elem.className = classes.join(" ").trim()
-            elem.classList.add("c" + (chNum) + "on")
-        }
-
         function createDescription() {
             const container = document.createElement("div")
             container.classList.add("container")
@@ -1076,56 +867,75 @@
             titlecontainer.innerHTML = "<h1>Help</h1>"
             titlecontainer.classList.add("title")
             container.appendChild(titlecontainer)
+
+            const textArea = document.createElement("textarea")
+            textArea.classList.add("form-control")
+            textArea.rows = 16
+            container.appendChild(textArea)
+
+            textArea.value = "Type something....."
+            textArea.readOnly = true
+            textArea.disabled = true
+
+            const textAreaDiv = document.createElement("div")
+            textAreaDiv.classList.add("timerset-submit-btn", "grid-item")
+            container.appendChild(textAreaDiv)
+
+            const toggleReadOnly = document.createElement("button")
+            toggleReadOnly.innerHTML = "Turn Edit On"
+            toggleReadOnly.classList.add("btn", "btn-light")
+            toggleReadOnly.addEventListener('click', ()=>{
+                textArea.readOnly = !textArea.readOnly
+                toggleReadOnly.innerHTML = textArea.readOnly==true?"Turn Edit On":"Turn Edit Off"
+                textArea.disabled = textArea.readOnly==true?true:false
+            })
+            textAreaDiv.appendChild(toggleReadOnly)
+
+            const saveEdit = document.createElement("button")
+            saveEdit.innerHTML = "Save Edit"
+            saveEdit.classList.add("btn", "btn-light")
+            saveEdit.addEventListener('click', ()=>{
+                console.log("save edit...")
+                helptext = textArea.value
+                fetch("/savehelptext", {
+                    method: 'POST', 
+                    headers: {'Content-Type':'application/json'},
+                    body: JSON.stringify({"helptext":helptext})
+                }).then(response=>response.json()).then(data=>console.log(data.message.text)).catch(error=>console.error(error))
+            })
+            textAreaDiv.appendChild(saveEdit)
+
+            fetch("/savehelptext").then(response=>response.json()).then(data=>textArea.value=data.jsondata.helptext).catch(error=>console.error(error))
+
             return container
         }
 
         let element1, element2, element3, element4, element5, element6
 
-        function initialCheckInputValidity(input) {
+// start validity highlight
+
+        function initialCheckInputValidity(self) {
             console.log("initialCheckInputValidity")
-            if(input.value !== '') {
-                        console.log(input.name)
-                        if(input.name.endsWith("0")) {
-                            let prefix = input.name.substring(0,input.name.length-1)
-                            const that = document.querySelector("input." + prefix + "1")
-                            console.log("input=" + input.value + " and that=" + that.value)
-                            if(input.value < that.value) {
-                                console.log("valid")
-                                document.querySelector("input." + input.name).classList.remove("is-invalid")
-                                document.querySelector("input." + that.name).classList.remove("is-invalid")
-                                document.querySelector("input." + input.name).classList.add("is-valid")
-                                document.querySelector("input." + that.name).classList.add("is-valid")
-                            }
-                            else {
-                                console.log("invalid")
-                                document.querySelector("input." + input.name).classList.remove("is-valid")
-                                document.querySelector("input." + that.name).classList.remove("is-valid")
-                                document.querySelector("input." + input.name).classList.add("is-invalid")
-                                document.querySelector("input." + that.name).classList.add("is-invalid")
-                            }
-                        } else if(input.name.endsWith("1")) {
-                            let prefix = input.name.substring(0,input.name.length-1)
-                            const that = document.querySelector("input." + prefix + "0")
-                            console.log("input=" + input.value + " and that=" + that.value)
-                            if(input.value > that.value) {
-                                console.log("valid")
-                                document.querySelector("input." + input.name).classList.remove("is-invalid")
-                                document.querySelector("input." + that.name).classList.remove("is-invalid")
-                                document.querySelector("input." + input.name).classList.add("is-valid")
-                                document.querySelector("input." + that.name).classList.add("is-valid")
-                            }
-                            else {
-                                console.log("invalid")
-                                document.querySelector("input." + input.name).classList.remove("is-valid")
-                                document.querySelector("input." + that.name).classList.remove("is-valid")
-                                document.querySelector("input." + input.name).classList.add("is-invalid")
-                                document.querySelector("input." + that.name).classList.add("is-invalid")
-                            }
-                        }
-                    }
+            const prefix = self.name.substring(0,self.name.length-2)
+            const inputs = document.querySelectorAll(`input.${prefix}`)
+            if(inputs[0].value === '' || inputs[1].value === '') {
+                inputs.forEach(input=>input.classList.remove("is-valid","is-invalid"))
+            } else {
+                if(inputs[0].value < inputs[1].value) {
+                    inputs.forEach(input=>{
+                        input.classList.remove("is-invalid")
+                        input.classList.add("is-valid")
+                    })
+                } else {
+                    inputs.forEach(input=>{
+                        input.classList.add("is-invalid")
+                        input.classList.remove("is-valid")
+                    })
+                }
+            }
         }
 
-        function initCheckForm() {
+        function renderCheckForm() {
             let inputList = document.querySelectorAll(".timerset-data input")
             console.log("here")
             inputList.forEach(input => {
@@ -1135,63 +945,15 @@
 
         function init(i) {
             console.log(myVar.timerSetData)
-            element1 = createTimerSetRawSummary2(myVar.timerSetData)
+            createNavBar()
+
+            element1 = createTimerSetRawSummary(myVar.timerSetData)
             element2 = createSchedule(myVar.timerSetData)
-            element3 = createTimerSetForm2(myVar.timerSetData)
+            element3 = createTimerSetForm(myVar.timerSetData)
             element4 = createTestRelays()
             element5 = createDescription()
             element6 = createHelp()
-
-            // initCheckForm()
-            // createTimerSetForm()
-            // initChannelButtons()
         }
-
-        function initChannelButtons() {
-            createChannelButtons()
-
-            animateChannelSwitching(".channel-btn-container", i + 1)
-            animateChannelSwitching(".daysLabel", i + 1)
-            animateChannelSwitching(".controlLabel", i + 1)
-            animateChannelSwitching(".startStopLabel", i + 1)
-            animateChannelSwitching(".timerset-container", i + 1)
-            animateChannelSwitching(".submitDiv", i + 1)
-
-            selectedChannel = i + 1
-            // change input name to reference channel number
-            let inputList = document.querySelectorAll(".timerSet input")
-            inputList.forEach(input => {
-                input.name = input.name.replace(/c\d+d/, 'c' + selectedChannel + 'd')
-                // console.log("input.name=" + input.name)
-            })
-
-            let inputList2 = document.querySelectorAll(".timerset-data input")
-            inputList2.forEach(input => {
-                input.name = input.name.replace(/c\d+d/, 'c' + selectedChannel + 'd')
-                // console.log("input.name=" + input.name)
-            })
-            // change input names to reference to selectedChannel
-            // once selected, load values from timerSetData object
-
-            fetch("/getTimerSetData").then((response => response.json())).then(data => {
-                // console.log(data, data.timerSetData)
-                timerSetData = data.timerSetData    // load params5.json into timerSetData 
-                enterData(data.timerSetData)
-            }).catch(error => console.error(error))
-
-            function enterData(timerSetData) {
-                inputList.forEach((input) => {
-                    input.value = timerSetData[input.name]
-                    // console.log("input.value=" + input.value)
-                })
-                // console.log("timerSetData=" + JSON.stringify(timerSetData))
-                inputList2.forEach((input) => {
-                    input.value = timerSetData[input.name]
-                    // console.log("input.value=" + input.value)
-                })
-            }
-        }
-        // end second block
 
         function updateTime() {
             fetch('/get_time')
@@ -1228,12 +990,9 @@
         }
 
 
-
         init(0) // channel 1 first on load
-        // updateTime()
         setInterval(updateTime, 10 * 1000)
-        // let heading = ge(".clock")
-        // heading.innerHTML = "<h2>Channel Status @ {{ntptime}}</h2>"
+
 
     </script>
 
@@ -1256,7 +1015,6 @@
         }
 
         const rootDiv = document.querySelector('#root')
-        // rootDiv.appendChild(routes['/'])
         rootDiv.appendChild(routes['/'])
 
         function onNavigate(pathname) {
@@ -1275,7 +1033,7 @@
             }
 
             if(pathname === "/timerset") {
-                initCheckForm()
+                renderCheckForm()
             }
         }
 
@@ -1287,6 +1045,13 @@
             if(e.state && e.state.page === "/schedule") {
                 try {
                     updateSchedule(myVar.timerSetData)
+                } catch (error) {
+
+                }          
+            }
+            if(e.state && e.state.page === "/timerset") {
+                try {
+                    renderCheckForm()
                 } catch (error) {
 
                 }          
